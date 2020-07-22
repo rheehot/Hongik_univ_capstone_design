@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".user_signup2"
+    >
+
+    <LinearLayout
+        android:id="@+id/layout2_1"
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:orientation="vertical">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_marginTop="20dp"
+            android:background="#FF000000" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <Button
+                android:id="@+id/layout2_b1"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/arrow_back">
+
+            </Button>
+
+            <TextView
+                android:layout_width="280dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center"
+                android:text="사용자 회원가입"
+                android:textSize="40dp"
+                android:textStyle="bold"></TextView>
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="#FF000000" />
+
+    </LinearLayout>
+
+    <!--<android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/layout2_1">
+
+        <android.support.design.widget.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="이름(name)"/>
+
+    </android.support.design.widget.TextInputLayout>-->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="* 아래정보를 기입해주세요. *"
+        android:gravity="center"
+        android:textStyle="bold"
+        android:layout_below="@+id/layout2_1">
+
+    </TextView>
+
+    <EditText
+        android:id="@+id/layout2_et1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/layout2_1"
+        android:layout_marginTop="40dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:hint="이름(name)">
+
+    </EditText>
+
+    <EditText
+        android:id="@+id/layout2_et2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/layout2_et1"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:hint="아이디(ID)">
+
+    </EditText>
+
+    <EditText
+        android:id="@+id/layout2_et3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/layout2_et2"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:hint="비밀번호(Password)">
+
+    </EditText>
+
+    <EditText
+        android:id="@+id/layout2_et4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/layout2_et3"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:hint="이메일(E-mail)">
+
+    </EditText>
+
+    <EditText
+        android:id="@+id/layout2_et5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/layout2_et4"
+        android:hint="연락처(-제외하고 입력해주세요.)"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        >
+
+    </EditText>
+
+    <Button
+        android:id="@+id/layout2_b2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/layout2_et5"
+        android:layout_marginLeft="160dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginRight="130dp"
+        android:gravity="center"
+        android:text="진행하기"
+        android:textSize="20dp">
+
+    </Button>
+
+
+</RelativeLayout>
