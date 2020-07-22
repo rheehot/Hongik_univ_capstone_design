@@ -3,13 +3,19 @@ package com.example.laundry02;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.ColorDrawable;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.method.ScrollingMovementMethod;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -17,28 +23,48 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 
 public class owner_order_y_n extends AppCompatActivity{
 
-    private DrawerLayout drawerLayout;
-    private View drawerView;
+    public String var_name, var_address, var_store_name;
+    public Double var_lat, var_long;
     private long backBtnTime = 0;
     Button b1,b2,b3,b4,b5,b6,b7,b8;
     TextView get_text;
 
     private ListView listView;
-    ArrayList<Human> h_info_list;
-    HumanAdpter myadapter;
-    Human myHuman1,myHuman2,myHuman3;
 
-    String owner_name1, owner_address1;
+    private static String TAG = "phptest";
+
+    private EditText mEditTextName;
+    private EditText mEditTextCountry;
+    private TextView mTextViewResult;
+    private ArrayList<owner_order_y_n_list> mArrayList;
+    private owner_order_y_n_Adpter mAdapter;
+    private RecyclerView mRecyclerView;
+    private EditText mEditTextSearchKeyword;
+    private String mJsonString;
+
+
+    String owner_name1, owner_address1,store_name1;
     Double owner_lat1, owner_long1;
 
     @Override
@@ -67,6 +93,30 @@ public class owner_order_y_n extends AppCompatActivity{
         owner_address1 = intent.getStringExtra("owner_address");
         owner_lat1 = intent.getDoubleExtra("owner_lat",0.0);
         owner_long1 = intent.getDoubleExtra("owner_long",0.0);
+        store_name1 = intent.getStringExtra("store_name");
+
+        var_name = owner_name1;
+        var_address = owner_address1;
+        var_lat = owner_lat1;
+        var_long = owner_long1;
+        var_store_name = store_name1;
+
+        mTextViewResult = (TextView) findViewById(R.id.textView_main_result);
+        mRecyclerView = (RecyclerView) findViewById(R.id.listView_main_list);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        mTextViewResult.setMovementMethod(new ScrollingMovementMethod());
+
+        mArrayList = new ArrayList<>();
+
+        mAdapter = new owner_order_y_n_Adpter(this, mArrayList, var_name, var_address, var_lat, var_long, var_store_name);
+        mRecyclerView.setAdapter(mAdapter);
+
+        mArrayList.clear();
+        mAdapter.notifyDataSetChanged();
+
+        owner_order_y_n.GetData task = new owner_order_y_n.GetData();
+        task.execute("http://edit0.dothome.co.kr/owner_order_y_n_db.php", var_store_name,"");
 
 
         //액션바 설정하기//
@@ -78,64 +128,146 @@ public class owner_order_y_n extends AppCompatActivity{
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 
-        /*menubar= (Button) findViewById(R.id.btn_open);
-        menubar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                PopupMenu popup = new PopupMenu(user_main1.this , menubar);
+    }
+
+    private class GetData extends AsyncTask<String, Void, String> {
+
+        ProgressDialog progressDialog;
+        String errorString = null;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+            progressDialog = ProgressDialog.show(owner_order_y_n.this,
+                    "Please Wait", null, true, true);
+        }
 
 
+        @Override
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
 
-                MenuInflater inf = popup.getMenuInflater();
-                inf.inflate(R.menu.menu1, popup.getMenu());
-                popup.show();
+            progressDialog.dismiss();
+            mTextViewResult.setText(result);
+            Log.d(TAG, "response - " + result);
+
+            if (result == null){
+
+                mTextViewResult.setText(errorString);
             }
-        });*/
+            else {
 
-
-        /*b1 = (Button) findViewById(R.id.layout6_b1);
-
-        b1.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), "이거 씨바라라랄아ㅏ랄압라랍", Toast.LENGTH_SHORT).show();
+                mJsonString = result;
+                showResult();
             }
-        });
+        }
 
-        b2 = (Button) findViewById(R.id.layout6_b2);
 
-        b2.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), "12354512523415", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(user_main.this, user_login.class);
-                startActivity(intent);
+        @Override
+        protected String doInBackground(String... params) {
+
+            String serverURL = params[0];
+            String postParameters = "store_name=" + params[1];
+
+
+            try {
+
+                URL url = new URL(serverURL);
+                HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+
+
+                httpURLConnection.setReadTimeout(5000);
+                httpURLConnection.setConnectTimeout(5000);
+                httpURLConnection.setRequestMethod("POST");
+                httpURLConnection.setDoInput(true);
+                httpURLConnection.connect();
+
+
+                OutputStream outputStream = httpURLConnection.getOutputStream();
+                outputStream.write(postParameters.getBytes("UTF-8"));
+                outputStream.flush();
+                outputStream.close();
+
+
+                int responseStatusCode = httpURLConnection.getResponseCode();
+                Log.d(TAG, "response code - " + responseStatusCode);
+
+                InputStream inputStream;
+                if(responseStatusCode == HttpURLConnection.HTTP_OK) {
+                    inputStream = httpURLConnection.getInputStream();
+                }
+                else{
+                    inputStream = httpURLConnection.getErrorStream();
+                }
+
+
+                InputStreamReader inputStreamReader = new InputStreamReader(inputStream, "UTF-8");
+                BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+
+                StringBuilder sb = new StringBuilder();
+                String line;
+
+                while((line = bufferedReader.readLine()) != null){
+                    sb.append(line);
+                }
+
+                bufferedReader.close();
+
+                return sb.toString().trim();
+
+
+            } catch (Exception e) {
+
+                Log.d(TAG, "GetData : Error ", e);
+                errorString = e.toString();
+
+                return null;
             }
-        });*/
+
+        }
+    }
+
+
+    private void showResult(){
+
+        String TAG_JSON="result";
+        String TAG_u_address = "u_address";
+        String TAG_items = "items";
+        String TAG_u_number ="u_number";
+
+
+        try {
+            JSONObject jsonObject = new JSONObject(mJsonString);
+            JSONArray jsonArray = jsonObject.getJSONArray(TAG_JSON);
+
+            for(int i=0;i<jsonArray.length();i++){
+
+                JSONObject item = jsonArray.getJSONObject(i);
+
+                String u_address1 = item.getString(TAG_u_address);
+                String items1 = item.getString(TAG_items);
+                String u_number = item.getString(TAG_u_number);
+
+                owner_order_y_n_list personalData = new owner_order_y_n_list();
+
+                personalData.setMember_u_address(u_address1);
+                personalData.setMember_u_id(items1);
+                personalData.setMember_u_pw(u_number);
+
+                mArrayList.add(personalData);
+                mAdapter.notifyDataSetChanged();
+            }
 
 
 
-        /*String[] list = {"하나세탁소(test)","영풍세탁소(test)","홍익세탁소(test)"};
+        } catch (JSONException e) {
 
-        ArrayAdapter<String> adapter;
-
-        adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, list);
-
-        ListView listview = (ListView)findViewById(R.id.listview);
-
-        listview.setAdapter(adapter);*/
-
-
-        //이값은 디비에서 불러오는걸로
-        /*get_text = findViewById(R.id.tv1);
-        Intent intent = getIntent();
-
-        Bundle bundle = intent.getExtras();
-        String set_address = bundle.getString("set_address");
-
-        get_text.setText(""+set_address+"");*/
-
-
+            Log.d(TAG, "showResult : ", e);
+        }
 
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -158,6 +290,7 @@ public class owner_order_y_n extends AppCompatActivity{
                 intent.putExtra("owner_address",owner_address1);
                 intent.putExtra("owner_lat",owner_lat1);
                 intent.putExtra("owner_long",owner_long1);
+                intent.putExtra("store_name",store_name1);
                 startActivity(intent);
                 break;
             case R.id.b2:
@@ -166,6 +299,7 @@ public class owner_order_y_n extends AppCompatActivity{
                 intent1.putExtra("owner_address",owner_address1);
                 intent1.putExtra("owner_lat",owner_lat1);
                 intent1.putExtra("owner_long",owner_long1);
+                intent1.putExtra("store_name",store_name1);
                 startActivity(intent1);
                 break;
             case R.id.b3:
@@ -174,6 +308,7 @@ public class owner_order_y_n extends AppCompatActivity{
                 intent2.putExtra("owner_address",owner_address1);
                 intent2.putExtra("owner_lat",owner_lat1);
                 intent2.putExtra("owner_long",owner_long1);
+                intent2.putExtra("store_name",store_name1);
                 startActivity(intent2);
                 break;
             case R.id.b4:
@@ -182,6 +317,7 @@ public class owner_order_y_n extends AppCompatActivity{
                 intent3.putExtra("owner_address",owner_address1);
                 intent3.putExtra("owner_lat",owner_lat1);
                 intent3.putExtra("owner_long",owner_long1);
+                intent3.putExtra("store_name",store_name1);
                 startActivity(intent3);
                 break;
             case R.id.b5:
@@ -190,6 +326,7 @@ public class owner_order_y_n extends AppCompatActivity{
                 intent4.putExtra("owner_address",owner_address1);
                 intent4.putExtra("owner_lat",owner_lat1);
                 intent4.putExtra("owner_long",owner_long1);
+                intent4.putExtra("store_name",store_name1);
                 startActivity(intent4);
                 break;
             case R.id.b6:
@@ -198,6 +335,7 @@ public class owner_order_y_n extends AppCompatActivity{
                 intent5.putExtra("owner_address",owner_address1);
                 intent5.putExtra("owner_lat",owner_lat1);
                 intent5.putExtra("owner_long",owner_long1);
+                intent5.putExtra("store_name",store_name1);
                 startActivity(intent5);
                 break;
             case R.id.b7:

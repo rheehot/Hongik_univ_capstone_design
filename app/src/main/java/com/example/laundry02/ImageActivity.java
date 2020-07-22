@@ -24,7 +24,7 @@ public class ImageActivity extends Activity {
 
     int img;
 
-    String user_name1, user_address1;
+    String user_name1, user_address1, user_id1, user_address_detail1;
     Double user_lat1, user_long1;
 
     @Override
@@ -38,7 +38,11 @@ public class ImageActivity extends Activity {
         user_address1 = intent.getStringExtra("user_address");
         user_lat1 = intent.getDoubleExtra("user_lat",0.0);
         user_long1 = intent.getDoubleExtra("user_long",0.0);
-        String re_set_title = intent.getStringExtra("name");
+        user_id1 = intent.getStringExtra("user_id");
+        user_address_detail1 = intent.getStringExtra("user_address_detail");
+
+
+        String re_set_title = intent.getStringExtra("title");
 
         main_title = findViewById(R.id.title1);
         main_title.setText(re_set_title);
@@ -52,6 +56,8 @@ public class ImageActivity extends Activity {
                 intent.putExtra("user_address",user_address1);
                 intent.putExtra("user_lat",user_lat1);
                 intent.putExtra("user_long",user_long1);
+                intent.putExtra("user_id",user_id1);
+                intent.putExtra("user_address_detail",user_address_detail1);
                 startActivity(intent);
             }
         });
@@ -65,7 +71,9 @@ public class ImageActivity extends Activity {
                 intent.putExtra("user_address",user_address1);
                 intent.putExtra("user_lat",user_lat1);
                 intent.putExtra("user_long",user_long1);
-                intent.putExtra("name",main_title.getText().toString());
+                intent.putExtra("title",main_title.getText().toString());
+                intent.putExtra("user_id",user_id1);
+                intent.putExtra("user_address_detail",user_address_detail1);
                 startActivity(intent);
             }
         });

@@ -17,27 +17,35 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 
 public class owner_info extends AppCompatActivity{
 
-    String owner_name1, owner_address1;
+    String owner_name1, owner_address1,store_name1;
     Double owner_lat1, owner_long1;
 
     private long backBtnTime = 0;
-    Button b1,b2,b3,b4,b5,b6,b7,b8;
+    Button owner_ch_info;
     TextView get_text;
 
+    EditText owner_password1;
+
     private ListView listView;
-    ArrayList<Human> h_info_list;
-    HumanAdpter myadapter;
-    Human myHuman1,myHuman2,myHuman3;
+
 
     @Override
     public void onBackPressed() {
@@ -60,11 +68,14 @@ public class owner_info extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_owner_info);
 
+        owner_password1 = (EditText) findViewById(R.id.layout5_et2);
+
         Intent intent = getIntent();
         owner_name1 = intent.getStringExtra("owner_name");
         owner_address1 = intent.getStringExtra("owner_address");
         owner_lat1 = intent.getDoubleExtra("owner_lat",0.0);
         owner_long1 = intent.getDoubleExtra("owner_long",0.0);
+        store_name1 = intent.getStringExtra("store_name");
 
         //액션바 설정하기//
         //액션바 타이틀 변경하기
@@ -73,6 +84,63 @@ public class owner_info extends AppCompatActivity{
         getSupportActionBar().setBackgroundDrawable(new ColorDrawable(0xFF339999));
         //홈버튼 표시
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+
+        owner_ch_info = (Button) findViewById(R.id.layout5_b1);
+        owner_ch_info.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final String store_name = store_name1;
+                String owner_password = owner_password1.getText().toString();
+
+                Response.Listener<String> responseListener = new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            JSONObject jsonObject = new JSONObject(response);
+                            boolean success = jsonObject.getBoolean("success"); //php보면 response가 success면 ㄱㄱ
+                            if(success){ //회원등록에 성공한 경우
+                                String owner_name  = jsonObject.getString("owner_name");
+                                String owner_address = jsonObject.getString("owner_address");
+                                Double owner_lat = jsonObject.getDouble("owner_lat");
+                                Double owner_long = jsonObject.getDouble("owner_long");
+                                String owner_id = jsonObject.getString("owner_id");
+                                int owner_number = jsonObject.getInt("owner_number");
+                                String owner_password = jsonObject.getString("owner_password");
+                                String owner_email = jsonObject.getString("owner_email");
+                                int owner_store_number = jsonObject.getInt("owner_store_number");
+                                //스토어네임
+
+                                Toast.makeText(getApplicationContext(),"접속 성공",Toast.LENGTH_SHORT).show();
+                                Intent intent = new Intent(owner_info.this, owner_info1.class);
+                                intent.putExtra("owner_name",owner_name);
+                                intent.putExtra("owner_address",owner_address);
+                                intent.putExtra("owner_lat",owner_lat);
+                                intent.putExtra("owner_long",owner_long);
+                                intent.putExtra("owner_id",owner_id);
+                                intent.putExtra("owner_number",owner_number);
+                                intent.putExtra("owner_password",owner_password);
+                                intent.putExtra("owner_email",owner_email);
+                                intent.putExtra("owner_store_number",owner_store_number);
+                                intent.putExtra("store_name",store_name);
+                                startActivity(intent);
+                            }
+                            //실패한 경우
+                            else{
+                                Toast.makeText(getApplicationContext(),"정확한 아이디/패스워드를 입력해주세요.",Toast.LENGTH_SHORT).show();
+                                return;
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                };
+                owner_info_db loginRequest = new owner_info_db(store_name, owner_password, responseListener);
+                RequestQueue queue = Volley.newRequestQueue(owner_info.this);
+                queue.add(loginRequest);
+            }
+        });
 
     }
     @Override
@@ -97,6 +165,7 @@ public class owner_info extends AppCompatActivity{
                 intent.putExtra("owner_address",owner_address1);
                 intent.putExtra("owner_lat",owner_lat1);
                 intent.putExtra("owner_long",owner_long1);
+                intent.putExtra("store_name",store_name1);
                 startActivity(intent);
                 break;
             case R.id.b2:
@@ -105,6 +174,7 @@ public class owner_info extends AppCompatActivity{
                 intent1.putExtra("owner_address",owner_address1);
                 intent1.putExtra("owner_lat",owner_lat1);
                 intent1.putExtra("owner_long",owner_long1);
+                intent1.putExtra("store_name",store_name1);
                 startActivity(intent1);
                 break;
             case R.id.b3:
@@ -113,6 +183,7 @@ public class owner_info extends AppCompatActivity{
                 intent2.putExtra("owner_address",owner_address1);
                 intent2.putExtra("owner_lat",owner_lat1);
                 intent2.putExtra("owner_long",owner_long1);
+                intent2.putExtra("store_name",store_name1);
                 startActivity(intent2);
                 break;
             case R.id.b4:
@@ -121,6 +192,7 @@ public class owner_info extends AppCompatActivity{
                 intent3.putExtra("owner_address",owner_address1);
                 intent3.putExtra("owner_lat",owner_lat1);
                 intent3.putExtra("owner_long",owner_long1);
+                intent3.putExtra("store_name",store_name1);
                 startActivity(intent3);
                 break;
             case R.id.b5:
@@ -129,6 +201,7 @@ public class owner_info extends AppCompatActivity{
                 intent4.putExtra("owner_address",owner_address1);
                 intent4.putExtra("owner_lat",owner_lat1);
                 intent4.putExtra("owner_long",owner_long1);
+                intent4.putExtra("store_name",store_name1);
                 startActivity(intent4);
                 break;
             case R.id.b6:
@@ -137,6 +210,7 @@ public class owner_info extends AppCompatActivity{
                 intent5.putExtra("owner_address",owner_address1);
                 intent5.putExtra("owner_lat",owner_lat1);
                 intent5.putExtra("owner_long",owner_long1);
+                intent5.putExtra("store_name",store_name1);
                 startActivity(intent5);
                 break;
             case R.id.b7:

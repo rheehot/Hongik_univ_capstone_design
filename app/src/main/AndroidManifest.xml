@@ -11,7 +11,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".user_info1"></activity>
+        <activity android:name=".user_forpay"></activity>
+        <activity android:name=".owner_info1" />
+        <activity android:name=".owner_item_add_del_up_del" />
+        <activity android:name=".owner_item_add_del_add" />
+        <activity android:name=".user_info1" />
         <activity android:name=".user_storereview" />
         <activity android:name=".user_itembasket" />
         <activity android:name=".user_itempage" />

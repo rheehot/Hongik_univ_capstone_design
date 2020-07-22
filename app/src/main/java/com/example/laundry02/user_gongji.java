@@ -44,7 +44,7 @@ public class user_gongji extends AppCompatActivity{
             Toast.makeText(this, "한번 더 누르면 종료됩니다.",Toast.LENGTH_SHORT).show();
         }
     }
-    String user_name1, user_address1, user_id1;
+    String user_name1, user_address1, user_id1, user_address_detail1;
     Double user_lat1, user_long1;
 
     @Override
@@ -58,11 +58,12 @@ public class user_gongji extends AppCompatActivity{
         user_lat1 = intent.getDoubleExtra("user_lat",0.0);
         user_long1 = intent.getDoubleExtra("user_long",0.0);
         user_id1 = intent.getStringExtra("user_id");
+        user_address_detail1 = intent.getStringExtra("user_address_detail");
 
 
         //액션바 설정하기//
         //액션바 타이틀 변경하기
-        getSupportActionBar().setTitle(user_name1+"님 안녕하세요.");
+        getSupportActionBar().setTitle(user_name1+"님 안녕하세요. [공지사항]");
         //액션바 배경색 변경
         getSupportActionBar().setBackgroundDrawable(new ColorDrawable(0xFF339999));
         //홈버튼 표시
@@ -110,6 +111,7 @@ public class user_gongji extends AppCompatActivity{
                 intent.putExtra("user_lat",user_lat1);
                 intent.putExtra("user_long",user_long1);
                 intent.putExtra("user_id",user_id1);
+                intent.putExtra("user_address_detail",user_address_detail1);
                 startActivity(intent);
                 break;
             case R.id.b2:
@@ -119,6 +121,7 @@ public class user_gongji extends AppCompatActivity{
                 intent1.putExtra("user_lat",user_lat1);
                 intent1.putExtra("user_long",user_long1);
                 intent1.putExtra("user_id",user_id1);
+                intent1.putExtra("user_address_detail",user_address_detail1);
                 startActivity(intent1);
                 break;
             case R.id.b3:
@@ -128,6 +131,7 @@ public class user_gongji extends AppCompatActivity{
                 intent2.putExtra("user_lat",user_lat1);
                 intent2.putExtra("user_long",user_long1);
                 intent2.putExtra("user_id",user_id1);
+                intent2.putExtra("user_address_detail",user_address_detail1);
                 startActivity(intent2);
                 break;
             case R.id.b4:
@@ -137,6 +141,7 @@ public class user_gongji extends AppCompatActivity{
                 intent3.putExtra("user_lat",user_lat1);
                 intent3.putExtra("user_long",user_long1);
                 intent3.putExtra("user_id",user_id1);
+                intent3.putExtra("user_address_detail",user_address_detail1);
                 startActivity(intent3);
                 break;
             case R.id.b5:
@@ -146,6 +151,7 @@ public class user_gongji extends AppCompatActivity{
                 intent4.putExtra("user_lat",user_lat1);
                 intent4.putExtra("user_long",user_long1);
                 intent4.putExtra("user_id",user_id1);
+                intent4.putExtra("user_address_detail",user_address_detail1);
                 startActivity(intent4);
                 break;
             case R.id.b6:
@@ -155,6 +161,7 @@ public class user_gongji extends AppCompatActivity{
                 intent5.putExtra("user_lat",user_lat1);
                 intent5.putExtra("user_long",user_long1);
                 intent5.putExtra("user_id",user_id1);
+                intent5.putExtra("user_address_detail",user_address_detail1);
                 startActivity(intent5);
                 break;
             case R.id.b7:
@@ -164,6 +171,7 @@ public class user_gongji extends AppCompatActivity{
                 intent6.putExtra("user_lat",user_lat1);
                 intent6.putExtra("user_long",user_long1);
                 intent6.putExtra("user_id",user_id1);
+                intent6.putExtra("user_address_detail",user_address_detail1);
                 startActivity(intent6);
                 break;
             case R.id.b8:

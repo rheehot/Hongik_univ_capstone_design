@@ -26,7 +26,7 @@ import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 
 public class owner_gongji_management extends AppCompatActivity{
-    String owner_name1, owner_address1;
+    String owner_name1, owner_address1,store_name1;
     Double owner_lat1, owner_long1;
 
     private long backBtnTime = 0;
@@ -34,9 +34,7 @@ public class owner_gongji_management extends AppCompatActivity{
     TextView get_text;
 
     private ListView listView;
-    ArrayList<Human> h_info_list;
-    HumanAdpter myadapter;
-    Human myHuman1,myHuman2,myHuman3;
+
 
     @Override
     public void onBackPressed() {
@@ -65,6 +63,7 @@ public class owner_gongji_management extends AppCompatActivity{
         owner_address1 = intent.getStringExtra("owner_address");
         owner_lat1 = intent.getDoubleExtra("owner_lat",0.0);
         owner_long1 = intent.getDoubleExtra("owner_long",0.0);
+        store_name1 = intent.getStringExtra("store_name");
 
         //액션바 설정하기//
         //액션바 타이틀 변경하기
@@ -102,6 +101,7 @@ public class owner_gongji_management extends AppCompatActivity{
                 intent.putExtra("owner_address",owner_address1);
                 intent.putExtra("owner_lat",owner_lat1);
                 intent.putExtra("owner_long",owner_long1);
+                intent.putExtra("store_name",store_name1);
                 startActivity(intent);
                 break;
             case R.id.b2:
@@ -110,6 +110,7 @@ public class owner_gongji_management extends AppCompatActivity{
                 intent1.putExtra("owner_address",owner_address1);
                 intent1.putExtra("owner_lat",owner_lat1);
                 intent1.putExtra("owner_long",owner_long1);
+                intent1.putExtra("store_name",store_name1);
                 startActivity(intent1);
                 break;
             case R.id.b3:
@@ -118,6 +119,7 @@ public class owner_gongji_management extends AppCompatActivity{
                 intent2.putExtra("owner_address",owner_address1);
                 intent2.putExtra("owner_lat",owner_lat1);
                 intent2.putExtra("owner_long",owner_long1);
+                intent2.putExtra("store_name",store_name1);
                 startActivity(intent2);
                 break;
             case R.id.b4:
@@ -126,6 +128,7 @@ public class owner_gongji_management extends AppCompatActivity{
                 intent3.putExtra("owner_address",owner_address1);
                 intent3.putExtra("owner_lat",owner_lat1);
                 intent3.putExtra("owner_long",owner_long1);
+                intent3.putExtra("store_name",store_name1);
                 startActivity(intent3);
                 break;
             case R.id.b5:
@@ -134,6 +137,7 @@ public class owner_gongji_management extends AppCompatActivity{
                 intent4.putExtra("owner_address",owner_address1);
                 intent4.putExtra("owner_lat",owner_lat1);
                 intent4.putExtra("owner_long",owner_long1);
+                intent4.putExtra("store_name",store_name1);
                 startActivity(intent4);
                 break;
             case R.id.b6:
@@ -142,6 +146,7 @@ public class owner_gongji_management extends AppCompatActivity{
                 intent5.putExtra("owner_address",owner_address1);
                 intent5.putExtra("owner_lat",owner_lat1);
                 intent5.putExtra("owner_long",owner_long1);
+                intent5.putExtra("store_name",store_name1);
                 startActivity(intent5);
                 break;
             case R.id.b7:

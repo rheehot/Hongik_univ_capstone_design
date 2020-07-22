@@ -5,20 +5,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 
-public class HumanAdpter extends BaseAdapter {
+public class user_now_order_Adpter extends BaseAdapter {
     private Context mContext = null;
     private int layout = 0;
-    private ArrayList<Human> data = null;
+    private ArrayList<user_now_order_list> data = null;
     private LayoutInflater inflater = null;
 
-    public HumanAdpter(Context c, int l, ArrayList<Human> d) {
+    public user_now_order_Adpter(Context c, int l, ArrayList<user_now_order_list> d) {
         this.mContext = c;
         this.layout = l;
         this.data = d;
@@ -50,16 +47,15 @@ public class HumanAdpter extends BaseAdapter {
         if(convertView == null) {
             convertView = inflater.inflate(this.layout, parent, false);
         }
-        ImageView Hu_image = (ImageView) convertView.findViewById(R.id.Human_image);
-        TextView Hu_name = (TextView) convertView.findViewById(R.id.Human_name);
-        TextView Hu_gender = (TextView) convertView.findViewById(R.id.Human_gender);
-        TextView Hu_age = (TextView) convertView.findViewById(R.id.Human_age);
+        /*ImageView Hu_image = (ImageView) convertView.findViewById(R.id.Human_image);*/
+        TextView s_name = (TextView) convertView.findViewById(R.id.s_name);
+        TextView date = (TextView) convertView.findViewById(R.id.date);
+        /*TextView Hu_age = (TextView) convertView.findViewById(R.id.Human_age);*/
 
-        Hu_image.setImageResource(data.get(position).image);
-        /*Hu_image.setImageBitmap(data.get(position).image);*/
-        Hu_name.setText(data.get(position).name);
-        Hu_gender.setText(data.get(position).gender);
-        Hu_age.setText(data.get(position).age);
+        /*Hu_image.setImageResource(data.get(position).image);*/
+        s_name.setText(data.get(position).s_name);
+        date.setText(data.get(position).date);
+        /*Hu_age.setText(data.get(position).age);*/
 
         /*LinearLayout a = (LinearLayout) convertView.findViewById(R.id.intothestore);
         a.setOnClickListener(new View.OnClickListener() {

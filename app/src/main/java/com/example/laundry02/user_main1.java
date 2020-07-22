@@ -3,13 +3,20 @@ package com.example.laundry02;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.ColorDrawable;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.method.ScrollingMovementMethod;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -17,29 +24,58 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 
 public class user_main1 extends AppCompatActivity{
 
-    private DrawerLayout drawerLayout;
-    private View drawerView;
+
+    public String var_name, var_address,  var_id;
+    public Double var_lat, var_long;
+
     private long backBtnTime = 0;
     Button b1,b2,b3,b4,b5,b6,b7,b8;
     TextView user_address;
 
     private ListView listView;
-    ArrayList<Human> h_info_list;
-    HumanAdpter myadapter;
-    Human myHuman1,myHuman2,myHuman3;
 
-    String user_name1, user_address1,user_id1;
+
+    String user_name1, user_address1,user_id1, user_address_detail1;
     Double user_lat1, user_long1;
+
+    //===========================================
+    private static String TAG = "phptest";
+
+    private EditText mEditTextName;
+    private EditText mEditTextCountry;
+    private TextView mTextViewResult;
+    private ArrayList<main1_list> mArrayList;
+    private main1_Adpter mAdapter;
+    private RecyclerView mRecyclerView;
+    private EditText mEditTextSearchKeyword;
+    private String mJsonString;
+
+    //==========================================
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,21 +88,64 @@ public class user_main1 extends AppCompatActivity{
         user_lat1 = intent.getDoubleExtra("user_lat",0.0);
         user_long1 = intent.getDoubleExtra("user_long",0.0);
         user_id1 = intent.getStringExtra("user_id");
+        user_address_detail1 = intent.getStringExtra("user_address_detail");
+
+
+        var_name = user_name1;
+        var_address = user_address1;
+        var_lat = user_lat1;
+        var_long = user_long1;
+        var_id = user_id1;
+        String var_address_detail = user_address_detail1;
+
+
+        //=======================================
+
+        mTextViewResult = (TextView)findViewById(R.id.textView_main_result);
+        mRecyclerView = (RecyclerView) findViewById(R.id.listView_main_list);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        mTextViewResult.setMovementMethod(new ScrollingMovementMethod());
+
+        mArrayList = new ArrayList<>();
+
+        mAdapter = new main1_Adpter(this, mArrayList, var_name,var_address,var_lat,var_long,var_id, var_address_detail);
+        mRecyclerView.setAdapter(mAdapter);
+
+        mArrayList.clear();
+        mAdapter.notifyDataSetChanged();
+
+        Response.Listener<String> responseListener = new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+
+            }
+        };
+
+        GetData task = new GetData();
+        task.execute("http://edit0.dothome.co.kr/main1_db.php",String.valueOf(user_lat1),String.valueOf(user_long1));
+
+
+
+        //======================================
+
+
+        /*context =this;*/
 
 
         //액션바 설정하기//
         //액션바 타이틀 변경하기
-        getSupportActionBar().setTitle(user_name1+"님 안녕하세요.");
+        getSupportActionBar().setTitle(user_name1+"님 안녕하세요. [메인]");
         //액션바 배경색 변경
         getSupportActionBar().setBackgroundDrawable(new ColorDrawable(0xFF339999));
         //홈버튼 표시
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         user_address = findViewById(R.id.tv1);
-        user_address.setText(user_address1);
+        user_address.setText(user_address1+" "+user_address_detail1);
 
 
-        listView = (ListView)findViewById(R.id.listView);
+        /*listView = (ListView)findViewById(R.id.listView);
         myHuman1 = new Human("하나세탁소", "평점:", "#깨끗", R.drawable.ic_launcher_background);
         myHuman2 = new Human("둘세탁소", "평점", "#피죤",R.drawable.ic_launcher_foreground);
         myHuman3 = new Human("셋세탁소", "평점", "#해시태그", R.drawable.ic_launcher_background);
@@ -97,16 +176,16 @@ public class user_main1 extends AppCompatActivity{
                 intent.putExtra("user_long",user_long1);
                 intent.putExtra("user_id",user_id1);
 
-                /*Bitmap sendBitmap = h_info_list.get(position).image;
+                *//*Bitmap sendBitmap = h_info_list.get(position).image;
 
                 ByteArrayOutputStream stream = new ByteArrayOutputStream();
                 sendBitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
                 byte[] byteArray = stream.toByteArray();
 
-                intent.putExtra("image",byteArray);*/
+                intent.putExtra("image",byteArray);*//*
                 startActivity(intent);
             }
-        });
+        });*/
     }
 
     @Override
@@ -125,102 +204,154 @@ public class user_main1 extends AppCompatActivity{
         }
     }
 
-    /*@Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_user_main1);
+    //==========================================================================================
 
-        //액션바 설정하기//
-        //액션바 타이틀 변경하기
-        getSupportActionBar().setTitle("홍길동님 안녕하세요.");
-        //액션바 배경색 변경
-        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(0xFF339999));
-        //홈버튼 표시
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    private class GetData extends AsyncTask<String, Void, String> {
 
+        ProgressDialog progressDialog;
+        String errorString = null;
 
-        *//*menubar= (Button) findViewById(R.id.btn_open);
-        menubar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                PopupMenu popup = new PopupMenu(user_main1.this , menubar);
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+            progressDialog = ProgressDialog.show(user_main1.this,
+                    "Please Wait", null, true, true);
+        }
 
 
+        @Override
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
 
-                MenuInflater inf = popup.getMenuInflater();
-                inf.inflate(R.menu.menu1, popup.getMenu());
-                popup.show();
+            progressDialog.dismiss();
+            /*mTextViewResult.setText(result);*/
+            Log.d(TAG, "response - " + result);
+
+            if (result == null){
+
+                mTextViewResult.setText(errorString);
             }
-        });*//*
+            else {
 
-
-        *//*b1 = (Button) findViewById(R.id.layout6_b1);
-
-        b1.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), "이거 씨바라라랄아ㅏ랄압라랍", Toast.LENGTH_SHORT).show();
+                mJsonString = result;
+                showResult();
             }
-        });
+        }
 
-        b2 = (Button) findViewById(R.id.layout6_b2);
 
-        b2.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), "12354512523415", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(user_main.this, user_login.class);
-                startActivity(intent);
+        @Override
+        protected String doInBackground(String... params) {
+
+            /*String serverURL = params[0];
+            String postParameters = params[1];*/
+            /*String user_lat = (String)params[1];
+            String user_long = (String)params[2];*/
+
+            String serverURL = params[0];
+            String postParameters = "user_lat=" + params[1] + "&user_long=" + params[2];
+
+            try {
+
+                URL url = new URL(serverURL);
+                HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+
+
+                httpURLConnection.setReadTimeout(5000);
+                httpURLConnection.setConnectTimeout(5000);
+                httpURLConnection.setRequestMethod("POST");
+                httpURLConnection.setDoInput(true);
+                httpURLConnection.connect();
+
+
+                OutputStream outputStream = httpURLConnection.getOutputStream();
+                outputStream.write(postParameters.getBytes("UTF-8"));
+                outputStream.flush();
+                outputStream.close();
+
+
+                int responseStatusCode = httpURLConnection.getResponseCode();
+                Log.d(TAG, "response code - " + responseStatusCode);
+
+                InputStream inputStream;
+                if(responseStatusCode == HttpURLConnection.HTTP_OK) {
+                    inputStream = httpURLConnection.getInputStream();
+                }
+                else{
+                    inputStream = httpURLConnection.getErrorStream();
+                }
+
+
+                InputStreamReader inputStreamReader = new InputStreamReader(inputStream, "UTF-8");
+                BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+
+                StringBuilder sb = new StringBuilder();
+                String line;
+
+                while((line = bufferedReader.readLine()) != null){
+                    sb.append(line);
+                }
+
+                bufferedReader.close();
+
+                return sb.toString().trim();
+
+
+            } catch (Exception e) {
+
+                Log.d(TAG, "GetData : Error ", e);
+                errorString = e.toString();
+
+                return null;
             }
-        });*//*
+
+        }
+    }
 
 
+    private void showResult(){
 
-        *//*String[] list = {"하나세탁소(test)","영풍세탁소(test)","홍익세탁소(test)"};
+        String TAG_JSON="result";
+        String TAG_s_name = "s_name";
+        String TAG_o_id = "o_id";
+        String TAG_o_pw ="o_pw";
 
-        ArrayAdapter<String> adapter;
 
-        adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, list);
+        try {
+            JSONObject jsonObject = new JSONObject(mJsonString);
+            JSONArray jsonArray = jsonObject.getJSONArray(TAG_JSON);
 
-        ListView listview = (ListView)findViewById(R.id.listview);
+            for(int i=0;i<jsonArray.length();i++){
 
-        listview.setAdapter(adapter);*//*
-        listView = (ListView)findViewById(R.id.listView);
-        myHuman1 = new Human("하나세탁소", "평점:", "#깨끗", R.drawable.ic_launcher_background);
-        myHuman2 = new Human("둘세탁소", "평점", "#피죤",R.drawable.ic_launcher_foreground);
-        myHuman3 = new Human("셋세탁소", "평점", "#해시태그", R.drawable.ic_launcher_background);
-        h_info_list = new ArrayList<Human>();
-        h_info_list.add(myHuman1);
-        h_info_list.add(myHuman2);
-        h_info_list.add(myHuman3);
-        h_info_list.add(myHuman1);
-        h_info_list.add(myHuman2);
-        h_info_list.add(myHuman3);
+                JSONObject item = jsonArray.getJSONObject(i);
 
-        //getApplicationContext() or this
-        myadapter = new HumanAdpter(this,R.layout.human_info, h_info_list);
-        listView.setAdapter(myadapter);
+                String s_name1 = item.getString(TAG_s_name);
+                String o_id1 = item.getString(TAG_o_id);
+                String o_pw1 = item.getString(TAG_o_pw);
 
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView parent, View view,int position, long id) {
-                Intent intent = new Intent(user_main1.this, ImageActivity.class); // 다음넘어갈 화면
-                intent.putExtra("image",Integer.toString(h_info_list.get(position).getImage()));
-                intent.putExtra("name",h_info_list.get(position).getName());
-                intent.putExtra("gender",h_info_list.get(position).getGender());
-                intent.putExtra("age",h_info_list.get(position).getAge());
-                startActivity(intent);
+                main1_list personalData = new main1_list();
 
+                personalData.setMember_s_name(s_name1);
+                personalData.setMember_o_id(o_id1);
+                personalData.setMember_o_pw(o_pw1);
+
+                mArrayList.add(personalData);
+                mAdapter.notifyDataSetChanged();
             }
-        });*/
 
-        //이값은 디비에서 불러오는걸로
-        /*get_text = findViewById(R.id.tv1);
-        Intent intent = getIntent();
 
-        Bundle bundle = intent.getExtras();
-        String set_address = bundle.getString("set_address");
 
-        get_text.setText(""+set_address+"");*/
+        } catch (JSONException e) {
 
+            Log.d(TAG, "showResult : ", e);
+        }
+
+    }
+
+
+
+
+    //=============================================================================================
 
 
 
@@ -247,6 +378,7 @@ public class user_main1 extends AppCompatActivity{
                 intent.putExtra("user_lat",user_lat1);
                 intent.putExtra("user_long",user_long1);
                 intent.putExtra("user_id",user_id1);
+                intent.putExtra("user_address_detail",user_address_detail1);
                 startActivity(intent);
                 break;
             case R.id.b2:
@@ -256,6 +388,7 @@ public class user_main1 extends AppCompatActivity{
                 intent1.putExtra("user_lat",user_lat1);
                 intent1.putExtra("user_long",user_long1);
                 intent1.putExtra("user_id",user_id1);
+                intent1.putExtra("user_address_detail",user_address_detail1);
                 startActivity(intent1);
                 break;
             case R.id.b3:
@@ -265,6 +398,7 @@ public class user_main1 extends AppCompatActivity{
                 intent2.putExtra("user_lat",user_lat1);
                 intent2.putExtra("user_long",user_long1);
                 intent2.putExtra("user_id",user_id1);
+                intent2.putExtra("user_address_detail",user_address_detail1);
                 startActivity(intent2);
                 break;
             case R.id.b4:
@@ -274,6 +408,7 @@ public class user_main1 extends AppCompatActivity{
                 intent3.putExtra("user_lat",user_lat1);
                 intent3.putExtra("user_long",user_long1);
                 intent3.putExtra("user_id",user_id1);
+                intent3.putExtra("user_address_detail",user_address_detail1);
                 startActivity(intent3);
                 break;
             case R.id.b5:
@@ -283,15 +418,19 @@ public class user_main1 extends AppCompatActivity{
                 intent4.putExtra("user_lat",user_lat1);
                 intent4.putExtra("user_long",user_long1);
                 intent4.putExtra("user_id",user_id1);
+                intent4.putExtra("user_address_detail",user_address_detail1);
                 startActivity(intent4);
                 break;
             case R.id.b6:
+                //now_order를 누르면 now_order테이블에서 s_name, date, u_id를 select해서 값 넘기기 /
+                // 중복없이 나열 후, s_name 수만큼 리스트를 생성하고 거기서 s_name들을 추출한다.
                 Intent intent5 = new Intent(this, user_now_order.class);
                 intent5.putExtra("user_name",user_name1);
                 intent5.putExtra("user_address",user_address1);
                 intent5.putExtra("user_lat",user_lat1);
                 intent5.putExtra("user_long",user_long1);
                 intent5.putExtra("user_id",user_id1);
+                intent5.putExtra("user_address_detail",user_address_detail1);
                 startActivity(intent5);
                 break;
             case R.id.b7:
@@ -301,6 +440,7 @@ public class user_main1 extends AppCompatActivity{
                 intent6.putExtra("user_lat",user_lat1);
                 intent6.putExtra("user_long",user_long1);
                 intent6.putExtra("user_id",user_id1);
+                intent6.putExtra("user_address_detail",user_address_detail1);
                 startActivity(intent6);
                 break;
             case R.id.b8:

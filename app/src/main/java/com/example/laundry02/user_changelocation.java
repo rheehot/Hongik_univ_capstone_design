@@ -17,6 +17,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
@@ -47,16 +48,17 @@ public class user_changelocation extends AppCompatActivity implements OnMapReady
     private long backBtnTime = 0;
 
     TextView get_text;
+    EditText et1;
 
     Button b1,b2,b3,b4,b5,b6,b7,b8, menubar;
 
-    String user_name1, user_address1;
+    String user_name1, user_address1, user_address_detail1;
     Double user_lat1, user_long1;
     private Button user_ch_lo;
     String set_address,user_id1;;
 
     Double user_lat, user_long;
-    String user_address, user_id;
+    String user_address, user_id, user_address_detail;
 
     List<Address> a;
 
@@ -88,11 +90,12 @@ public class user_changelocation extends AppCompatActivity implements OnMapReady
         user_lat1 = intent.getDoubleExtra("user_lat",0.0);
         user_long1 = intent.getDoubleExtra("user_long",0.0);
         user_id1 = intent.getStringExtra("user_id");
+        user_address_detail1 = intent.getStringExtra("user_address_detail");
 
 
         //액션바 설정하기//
         //액션바 타이틀 변경하기
-        getSupportActionBar().setTitle(user_name1+"님 안녕하세요.");
+        getSupportActionBar().setTitle(user_name1+"님 안녕하세요. [위치변경]");
         //액션바 배경색 변경
         getSupportActionBar().setBackgroundDrawable(new ColorDrawable(0xFF339999));
         //홈버튼 표시
@@ -111,6 +114,8 @@ public class user_changelocation extends AppCompatActivity implements OnMapReady
             }
         });*/
 
+        et1 = (EditText) findViewById(R.id.layout3_et1);
+
         user_ch_lo = (Button) findViewById(R.id.layout3_b2);
         user_ch_lo.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -121,6 +126,7 @@ public class user_changelocation extends AppCompatActivity implements OnMapReady
                     user_long = longitude;
                     user_address = a.get(0).getAddressLine(0);
                     user_id = user_id1;
+                    user_address_detail = et1.getText().toString();
                 } catch (Exception e){
                     Toast.makeText(getApplicationContext(),"지도에 위치를 지정하세요.",Toast.LENGTH_SHORT).show();
                 }
@@ -131,13 +137,14 @@ public class user_changelocation extends AppCompatActivity implements OnMapReady
                             JSONObject jsonObject = new JSONObject(response);
                             boolean success = jsonObject.getBoolean("success"); //php보면 response가 success면 ㄱㄱ
                             if(success){ //회원등록에 성공한 경우
-                                Toast.makeText(getApplicationContext(),"주소가 변경되었습니다.",Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getApplicationContext(),"주소가 변경되었습니다. 다시 로그인 해주세요.",Toast.LENGTH_SHORT).show();
                                 Intent intent = new Intent(user_changelocation.this, user_changelocation.class);
                                 intent.putExtra("user_name",user_name1);
-                                intent.putExtra("user_address",user_address1);
-                                intent.putExtra("user_lat",user_lat1);
-                                intent.putExtra("user_long",user_long1);
+                                intent.putExtra("user_address",user_address);
+                                intent.putExtra("user_lat",user_lat);
+                                intent.putExtra("user_long",user_long);
                                 intent.putExtra("user_id",user_id1);
+                                intent.putExtra("user_address_detail",user_address_detail);
                                 startActivity(intent);
                             }
                             //실패한 경우
@@ -153,7 +160,7 @@ public class user_changelocation extends AppCompatActivity implements OnMapReady
                 };
 
                 //서버로 Volley를 이용해서 요청을 함
-                user_register2_db registerRequest = new user_register2_db(user_lat, user_long,user_address, user_id, responseListener);
+                user_register2_db registerRequest = new user_register2_db(user_lat, user_long,user_address, user_id, user_address_detail, responseListener);
                 RequestQueue queue = Volley.newRequestQueue(user_changelocation.this);
                 queue.add(registerRequest);
             }
@@ -254,6 +261,7 @@ public class user_changelocation extends AppCompatActivity implements OnMapReady
                 intent.putExtra("user_lat",user_lat1);
                 intent.putExtra("user_long",user_long1);
                 intent.putExtra("user_id",user_id1);
+                intent.putExtra("user_address_detail",user_address_detail1);
                 startActivity(intent);
                 break;
             case R.id.b2:
@@ -263,6 +271,7 @@ public class user_changelocation extends AppCompatActivity implements OnMapReady
                 intent1.putExtra("user_lat",user_lat1);
                 intent1.putExtra("user_long",user_long1);
                 intent1.putExtra("user_id",user_id1);
+                intent1.putExtra("user_address_detail",user_address_detail1);
                 startActivity(intent1);
                 break;
             case R.id.b3:
@@ -272,6 +281,7 @@ public class user_changelocation extends AppCompatActivity implements OnMapReady
                 intent2.putExtra("user_lat",user_lat1);
                 intent2.putExtra("user_long",user_long1);
                 intent2.putExtra("user_id",user_id1);
+                intent2.putExtra("user_address_detail",user_address_detail1);
                 startActivity(intent2);
                 break;
             case R.id.b4:
@@ -281,6 +291,7 @@ public class user_changelocation extends AppCompatActivity implements OnMapReady
                 intent3.putExtra("user_lat",user_lat1);
                 intent3.putExtra("user_long",user_long1);
                 intent3.putExtra("user_id",user_id1);
+                intent3.putExtra("user_address_detail",user_address_detail1);
                 startActivity(intent3);
                 break;
             case R.id.b5:
@@ -290,6 +301,7 @@ public class user_changelocation extends AppCompatActivity implements OnMapReady
                 intent4.putExtra("user_lat",user_lat1);
                 intent4.putExtra("user_long",user_long1);
                 intent4.putExtra("user_id",user_id1);
+                intent4.putExtra("user_address_detail",user_address_detail1);
                 startActivity(intent4);
                 break;
             case R.id.b6:
@@ -299,6 +311,7 @@ public class user_changelocation extends AppCompatActivity implements OnMapReady
                 intent5.putExtra("user_lat",user_lat1);
                 intent5.putExtra("user_long",user_long1);
                 intent5.putExtra("user_id",user_id1);
+                intent5.putExtra("user_address_detail",user_address_detail1);
                 startActivity(intent5);
                 break;
             case R.id.b7:
@@ -308,6 +321,7 @@ public class user_changelocation extends AppCompatActivity implements OnMapReady
                 intent6.putExtra("user_lat",user_lat1);
                 intent6.putExtra("user_long",user_long1);
                 intent6.putExtra("user_id",user_id1);
+                intent6.putExtra("user_address_detail",user_address_detail1);
                 startActivity(intent6);
                 break;
             case R.id.b8:

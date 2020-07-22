@@ -19,17 +19,21 @@ import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+
 public class user_review extends AppCompatActivity{
 
-    private DrawerLayout drawerLayout;
-    private View drawerView;
+    private ListView listView;
+    ArrayList<user_review_list> user_review_list;
+    user_review_Adpter myadapter;
+    user_review_list list1,list2,list3;
     private long backBtnTime = 0;
 
     TextView get_text;
 
     Button b1,b2,b3,b4,b5,b6,b7,b8, menubar;
 
-    String user_name1, user_address1;
+    String user_name1, user_address1, user_id1, user_address_detail1;
     Double user_lat1, user_long1;
 
     @Override
@@ -59,11 +63,13 @@ public class user_review extends AppCompatActivity{
         user_address1 = intent.getStringExtra("user_address");
         user_lat1 = intent.getDoubleExtra("user_lat",0.0);
         user_long1 = intent.getDoubleExtra("user_long",0.0);
+        user_id1 = intent.getStringExtra("user_id");
+        user_address_detail1 = intent.getStringExtra("user_address_detail");
 
 
         //액션바 설정하기//
         //액션바 타이틀 변경하기
-        getSupportActionBar().setTitle(user_name1+"님 안녕하세요.");
+        getSupportActionBar().setTitle(user_name1+"님 안녕하세요. [내 리뷰보기]");
         //액션바 배경색 변경
         getSupportActionBar().setBackgroundDrawable(new ColorDrawable(0xFF339999));
         //홈버튼 표시
@@ -83,7 +89,25 @@ public class user_review extends AppCompatActivity{
         });*/
 
 
+        //=======================================리스트시작===========================================
 
+        listView = (ListView)findViewById(R.id.listview);
+        list1 = new user_review_list("korea1", 5, "만족 ㅋ");
+        list2 = new user_review_list("upto100", 4, "깨끗했지만 배달느려서 1점 깎아요.");
+        list3 = new user_review_list("멍멍이", 3, "아 이건 아님. 비싸고 더러움. 차라리 다른데서 하는게 훨씬 나을 듯. 참고하시길;");
+        user_review_list = new ArrayList<user_review_list>();
+        user_review_list.add(list1);
+        user_review_list.add(list2);
+        user_review_list.add(list3);
+        user_review_list.add(list1);
+        user_review_list.add(list2);
+        user_review_list.add(list3);
+        user_review_list.add(list1);
+        user_review_list.add(list2);
+        user_review_list.add(list3);
+
+        myadapter = new user_review_Adpter(getApplicationContext(),R.layout.user_review_info, user_review_list);
+        listView.setAdapter(myadapter);
 
 
 
@@ -110,6 +134,8 @@ public class user_review extends AppCompatActivity{
                 intent.putExtra("user_address",user_address1);
                 intent.putExtra("user_lat",user_lat1);
                 intent.putExtra("user_long",user_long1);
+                intent.putExtra("user_id",user_id1);
+                intent.putExtra("user_address_detail",user_address_detail1);
                 startActivity(intent);
                 break;
             case R.id.b2:
@@ -118,6 +144,8 @@ public class user_review extends AppCompatActivity{
                 intent1.putExtra("user_address",user_address1);
                 intent1.putExtra("user_lat",user_lat1);
                 intent1.putExtra("user_long",user_long1);
+                intent1.putExtra("user_id",user_id1);
+                intent1.putExtra("user_address_detail",user_address_detail1);
                 startActivity(intent1);
                 break;
             case R.id.b3:
@@ -126,6 +154,8 @@ public class user_review extends AppCompatActivity{
                 intent2.putExtra("user_address",user_address1);
                 intent2.putExtra("user_lat",user_lat1);
                 intent2.putExtra("user_long",user_long1);
+                intent2.putExtra("user_id",user_id1);
+                intent2.putExtra("user_address_detail",user_address_detail1);
                 startActivity(intent2);
                 break;
             case R.id.b4:
@@ -134,6 +164,8 @@ public class user_review extends AppCompatActivity{
                 intent3.putExtra("user_address",user_address1);
                 intent3.putExtra("user_lat",user_lat1);
                 intent3.putExtra("user_long",user_long1);
+                intent3.putExtra("user_id",user_id1);
+                intent3.putExtra("user_address_detail",user_address_detail1);
                 startActivity(intent3);
                 break;
             case R.id.b5:
@@ -142,6 +174,8 @@ public class user_review extends AppCompatActivity{
                 intent4.putExtra("user_address",user_address1);
                 intent4.putExtra("user_lat",user_lat1);
                 intent4.putExtra("user_long",user_long1);
+                intent4.putExtra("user_id",user_id1);
+                intent4.putExtra("user_address_detail",user_address_detail1);
                 startActivity(intent4);
                 break;
             case R.id.b6:
@@ -150,6 +184,8 @@ public class user_review extends AppCompatActivity{
                 intent5.putExtra("user_address",user_address1);
                 intent5.putExtra("user_lat",user_lat1);
                 intent5.putExtra("user_long",user_long1);
+                intent5.putExtra("user_id",user_id1);
+                intent5.putExtra("user_address_detail",user_address_detail1);
                 startActivity(intent5);
                 break;
             case R.id.b7:
@@ -158,6 +194,8 @@ public class user_review extends AppCompatActivity{
                 intent6.putExtra("user_address",user_address1);
                 intent6.putExtra("user_lat",user_lat1);
                 intent6.putExtra("user_long",user_long1);
+                intent6.putExtra("user_id",user_id1);
+                intent6.putExtra("user_address_detail",user_address_detail1);
                 startActivity(intent6);
                 break;
             case R.id.b8:
