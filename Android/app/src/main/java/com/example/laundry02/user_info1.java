@@ -22,7 +22,7 @@ import org.json.JSONObject;
 
 public class user_info1 extends Activity {
 
-    String user_name1, user_address1, user_id1, user_email1, user_password1;
+    String user_name1, user_address1, user_id1, user_email1, user_password1, user_address_detail1;
     int user_number1;
     Double user_lat1, user_long1;
 
@@ -49,6 +49,7 @@ public class user_info1 extends Activity {
         user_password1 = intent.getStringExtra("user_password");
         user_email1 = intent.getStringExtra("user_email");
         user_number1 = intent.getIntExtra("user_number",0);
+        user_address_detail1 = intent.getStringExtra("user_address_detail");
 
 
         tv1 = findViewById(R.id.layout_tv1);
@@ -61,6 +62,14 @@ public class user_info1 extends Activity {
         b2 = findViewById(R.id.layout_b2);
         b3 = findViewById(R.id.layout_b3);
         b4 = findViewById(R.id.layout_b4);
+
+        et2 = (EditText) findViewById(R.id.layout_et2);
+        et3 = (EditText) findViewById(R.id.layout_et3);
+
+        et2.setHint(String.valueOf(user_number1));
+        et3.setHint(user_email1);
+
+
 
 
         b1.setOnClickListener(new View.OnClickListener() {
@@ -104,6 +113,7 @@ public class user_info1 extends Activity {
                                 intent.putExtra("user_password",user_password);
                                 intent.putExtra("user_number",user_number);
                                 intent.putExtra("user_email",user_email);
+                                intent.putExtra("user_address_detail",user_address_detail1);
                                 startActivity(intent);
                             }
                             //실패한 경우
@@ -126,7 +136,7 @@ public class user_info1 extends Activity {
         b2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                et2 = (EditText) findViewById(R.id.layout_et2);
+                /*et2 = (EditText) findViewById(R.id.layout_et2);*/
                 String user_password = user_password1;
                 int user_number = Integer.parseInt(et2.getText().toString());
                 String user_email = user_email1;
@@ -164,6 +174,7 @@ public class user_info1 extends Activity {
                                 intent.putExtra("user_password",user_password);
                                 intent.putExtra("user_number",user_number);
                                 intent.putExtra("user_email",user_email);
+                                intent.putExtra("user_address_detail",user_address_detail1);
                                 startActivity(intent);
                             }
                             //실패한 경우
@@ -186,7 +197,7 @@ public class user_info1 extends Activity {
         b3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                et3 = (EditText) findViewById(R.id.layout_et3);
+                /*et3 = (EditText) findViewById(R.id.layout_et3);*/
                 String user_password = user_password1;
                 int user_number = user_number1;
                 String user_email = et3.getText().toString();
@@ -224,6 +235,7 @@ public class user_info1 extends Activity {
                                 intent.putExtra("user_password",user_password);
                                 intent.putExtra("user_number",user_number);
                                 intent.putExtra("user_email",user_email);
+                                intent.putExtra("user_address_detail",user_address_detail1);
                                 startActivity(intent);
                             }
                             //실패한 경우
@@ -278,6 +290,7 @@ public class user_info1 extends Activity {
                                 intent.putExtra("user_password",user_password);
                                 intent.putExtra("user_number",user_number);
                                 intent.putExtra("user_email",user_email);
+                                intent.putExtra("user_address_detail",user_address_detail1);
                                 startActivity(intent);
                             }
                             //실패한 경우

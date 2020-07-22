@@ -26,7 +26,7 @@ public class user_signup2 extends Activity {
 
     EditText et1,et2,et3,et4,et5;
 
-    String user_name, user_id, user_password, user_email, user_address;
+    String user_name, user_id, user_password, user_email, user_address, user_address_detail;
     Double user_lat, user_long;
     int user_number;
 
@@ -62,6 +62,7 @@ public class user_signup2 extends Activity {
                     user_lat = Double.parseDouble("0.0");
                     user_long = Double.parseDouble("0.0");
                     user_address = "null";
+                    user_address_detail = "null";
                 }catch (Exception e){
                     Toast.makeText(getApplicationContext(),"빈칸을 채워주세요.",Toast.LENGTH_SHORT).show();
                 }
@@ -93,7 +94,7 @@ public class user_signup2 extends Activity {
                 };
 
                 //서버로 Volley를 이용해서 요청을 함
-                user_register1_db registerRequest = new user_register1_db(user_name, user_id,user_password,user_email, user_address, user_number, user_lat, user_long, responseListener);
+                user_register1_db registerRequest = new user_register1_db(user_name, user_id,user_password,user_email, user_address, user_number, user_lat, user_long, user_address_detail, responseListener);
                 RequestQueue queue = Volley.newRequestQueue(user_signup2.this);
                 queue.add(registerRequest);
             }

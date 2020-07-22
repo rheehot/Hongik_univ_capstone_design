@@ -90,14 +90,30 @@
     <!--<ScrollView
         android:layout_width="match_parent"
         android:layout_height="450dp">-->
-    <ListView
+    <!--<ListView
         android:id="@+id/listview"
         android:layout_width="match_parent"
         android:layout_height="450dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"
-        android:layout_alignParentLeft="true"/>
+        android:layout_alignParentLeft="true"/>-->
     <!--</ScrollView>-->
+
+    <TextView
+        android:id="@+id/textView_main_result"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="1dp"
+        android:text=""></TextView>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="wrap_content"
+        android:layout_height="430dp"
+        android:padding="5dp"
+        android:id="@+id/listView_main_list"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -117,10 +133,17 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="70dp"
-            android:text="합계액넣을곳"
+            android:text="0"
             android:textSize="20dp">
 
         </TextView>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="원"
+            android:textSize="20dp"
+            android:textStyle="bold"/>
 
 
         <Button

@@ -56,6 +56,7 @@ public class owner_login extends Activity {
                                 String owner_address = jsonObject.getString("owner_address");
                                 Double owner_lat = jsonObject.getDouble("owner_lat");
                                 Double owner_long = jsonObject.getDouble("owner_long");
+                                String store_name = jsonObject.getString("owner_store_name");
 
                                 Toast.makeText(getApplicationContext(),"접속 성공",Toast.LENGTH_SHORT).show();
                                 Intent intent = new Intent(owner_login.this, owner_main.class);
@@ -63,6 +64,7 @@ public class owner_login extends Activity {
                                 intent.putExtra("owner_address",owner_address);
                                 intent.putExtra("owner_lat",owner_lat);
                                 intent.putExtra("owner_long",owner_long);
+                                intent.putExtra("store_name",store_name);
                                 startActivity(intent);
                             }
                             //실패한 경우

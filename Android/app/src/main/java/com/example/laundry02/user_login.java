@@ -60,6 +60,7 @@ public class user_login extends Activity {
                                 Double user_lat = jsonObject.getDouble("user_lat");
                                 Double user_long = jsonObject.getDouble("user_long");
                                 String user_id = jsonObject.getString("user_id");
+                                String user_address_detail = jsonObject.getString("user_address_detail");
 
                                 Toast.makeText(getApplicationContext(),"접속 성공",Toast.LENGTH_SHORT).show();
                                 Intent intent = new Intent(user_login.this, user_main1.class);
@@ -68,6 +69,7 @@ public class user_login extends Activity {
                                 intent.putExtra("user_lat",user_lat);
                                 intent.putExtra("user_long",user_long);
                                 intent.putExtra("user_id",user_id);
+                                intent.putExtra("user_address_detail",user_address_detail);
                                 startActivity(intent);
                             }
                             //실패한 경우

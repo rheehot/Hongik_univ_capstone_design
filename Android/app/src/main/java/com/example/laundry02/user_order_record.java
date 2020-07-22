@@ -29,7 +29,7 @@ public class user_order_record extends AppCompatActivity{
 
     Button b1,b2,b3,b4,b5,b6,b7,b8, menubar;
 
-    String user_name1, user_address1;
+    String user_name1, user_address1, user_id1, user_address_detail1;
     Double user_lat1, user_long1;
 
     @Override
@@ -59,6 +59,8 @@ public class user_order_record extends AppCompatActivity{
         user_address1 = intent.getStringExtra("user_address");
         user_lat1 = intent.getDoubleExtra("user_lat",0.0);
         user_long1 = intent.getDoubleExtra("user_long",0.0);
+        user_id1 = intent.getStringExtra("user_id");
+        user_address_detail1 = intent.getStringExtra("user_address_detail");
 
 
         //액션바 설정하기//
@@ -110,6 +112,8 @@ public class user_order_record extends AppCompatActivity{
                 intent.putExtra("user_address",user_address1);
                 intent.putExtra("user_lat",user_lat1);
                 intent.putExtra("user_long",user_long1);
+                intent.putExtra("user_id",user_id1);
+                intent.putExtra("user_address_detail",user_address_detail1);
                 startActivity(intent);
                 break;
             case R.id.b2:
@@ -118,6 +122,8 @@ public class user_order_record extends AppCompatActivity{
                 intent1.putExtra("user_address",user_address1);
                 intent1.putExtra("user_lat",user_lat1);
                 intent1.putExtra("user_long",user_long1);
+                intent1.putExtra("user_id",user_id1);
+                intent1.putExtra("user_address_detail",user_address_detail1);
                 startActivity(intent1);
                 break;
             case R.id.b3:
@@ -126,6 +132,8 @@ public class user_order_record extends AppCompatActivity{
                 intent2.putExtra("user_address",user_address1);
                 intent2.putExtra("user_lat",user_lat1);
                 intent2.putExtra("user_long",user_long1);
+                intent2.putExtra("user_id",user_id1);
+                intent2.putExtra("user_address_detail",user_address_detail1);
                 startActivity(intent2);
                 break;
             case R.id.b4:
@@ -134,6 +142,8 @@ public class user_order_record extends AppCompatActivity{
                 intent3.putExtra("user_address",user_address1);
                 intent3.putExtra("user_lat",user_lat1);
                 intent3.putExtra("user_long",user_long1);
+                intent3.putExtra("user_id",user_id1);
+                intent3.putExtra("user_address_detail",user_address_detail1);
                 startActivity(intent3);
                 break;
             case R.id.b5:
@@ -142,6 +152,8 @@ public class user_order_record extends AppCompatActivity{
                 intent4.putExtra("user_address",user_address1);
                 intent4.putExtra("user_lat",user_lat1);
                 intent4.putExtra("user_long",user_long1);
+                intent4.putExtra("user_id",user_id1);
+                intent4.putExtra("user_address_detail",user_address_detail1);
                 startActivity(intent4);
                 break;
             case R.id.b6:
@@ -150,6 +162,8 @@ public class user_order_record extends AppCompatActivity{
                 intent5.putExtra("user_address",user_address1);
                 intent5.putExtra("user_lat",user_lat1);
                 intent5.putExtra("user_long",user_long1);
+                intent5.putExtra("user_id",user_id1);
+                intent5.putExtra("user_address_detail",user_address_detail1);
                 startActivity(intent5);
                 break;
             case R.id.b7:
@@ -158,6 +172,8 @@ public class user_order_record extends AppCompatActivity{
                 intent6.putExtra("user_address",user_address1);
                 intent6.putExtra("user_lat",user_lat1);
                 intent6.putExtra("user_long",user_long1);
+                intent6.putExtra("user_id",user_id1);
+                intent6.putExtra("user_address_detail",user_address_detail1);
                 startActivity(intent6);
                 break;
             case R.id.b8:

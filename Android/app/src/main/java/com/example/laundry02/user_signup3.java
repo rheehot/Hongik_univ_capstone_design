@@ -10,6 +10,7 @@ import android.location.Geocoder;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
@@ -34,9 +35,10 @@ public class user_signup3 extends Activity implements OnMapReadyCallback {
     private FragmentManager fragmentManager;
     private MapFragment mapFragment;
     private Button user_signup_back, user_signup_go;
+    private EditText user_address_detail1;
     private GoogleMap mMap;
 
-    String set_address,user_id1;
+    String set_address,user_id1, user_address_detail;
 
     Double latitude, longitude;
 
@@ -62,6 +64,7 @@ public class user_signup3 extends Activity implements OnMapReadyCallback {
             }
         });
 
+        user_address_detail1 = (EditText) findViewById(R.id.layout3_et1);
         user_signup_go = (Button) findViewById(R.id.layout3_b2);
         user_signup_go.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -72,6 +75,8 @@ public class user_signup3 extends Activity implements OnMapReadyCallback {
                     user_long = longitude;
                     user_address = a.get(0).getAddressLine(0);
                     user_id = user_id1;
+                    user_address_detail = user_address_detail1.getText().toString();
+
                 } catch (Exception e){
                     Toast.makeText(getApplicationContext(),"지도에 위치를 지정하세요.",Toast.LENGTH_SHORT).show();
                 }
@@ -99,7 +104,7 @@ public class user_signup3 extends Activity implements OnMapReadyCallback {
                 };
 
                 //서버로 Volley를 이용해서 요청을 함
-                user_register2_db registerRequest = new user_register2_db(user_lat, user_long,user_address, user_id, responseListener);
+                user_register2_db registerRequest = new user_register2_db(user_lat, user_long,user_address, user_id, user_address_detail, responseListener);
                 RequestQueue queue = Volley.newRequestQueue(user_signup3.this);
                 queue.add(registerRequest);
             }

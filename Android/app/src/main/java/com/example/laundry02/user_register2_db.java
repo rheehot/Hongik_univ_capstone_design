@@ -12,7 +12,7 @@ public class user_register2_db extends StringRequest {
     final static private String URL = "http://edit0.dothome.co.kr/user_register_location.php";
     private Map<String, String> map;
 
-    public user_register2_db(Double user_lat, Double user_long, String user_address, String user_id, Response.Listener<String> listener){
+    public user_register2_db(Double user_lat, Double user_long, String user_address, String user_id, String user_address_detail, Response.Listener<String> listener){
         super(Method.POST,URL,listener,null);
 
         map = new HashMap<>();
@@ -21,6 +21,7 @@ public class user_register2_db extends StringRequest {
         map.put("user_long",user_long+"");
         map.put("user_address",user_address);
         map.put("user_id",user_id);
+        map.put("user_address_detail",user_address_detail);
     }
 
     @Override

@@ -16,38 +16,38 @@
             android:layout_margin="5dp"
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
-            android:src="#b91c1c" />
+            android:src="@drawable/ic_launcher_foreground" />
 
         <LinearLayout
-            android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginLeft="10dp">
+            android:layout_marginLeft="10dp"
+            android:orientation="vertical">
 
             <TextView
-                android:textColor="#111111"
+                android:id="@+id/s_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:textAppearance="?android:attr/textAppearanceLarge"
                 android:text="Large Text"
-                android:id="@+id/Human_name" />
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textColor="#111111" />
 
             <TextView
-                android:textColor="#111111"
+                android:id="@+id/o_id"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="Medium Text"
-                android:id="@+id/Human_gender" />
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="#111111" />
 
             <TextView
-                android:textColor="#111111"
+                android:id="@+id/o_pw"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="Medium Text"
-                android:id="@+id/Human_age" />
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="#111111" />
         </LinearLayout>
     </LinearLayout>
 </RelativeLayout>
