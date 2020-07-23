@@ -13,13 +13,19 @@ import "./style/Header.css";
 
 const useStyles = makeStyles((theme) => ({
   root:{
-		fontFamily: "Noto Sans KR",
+	fontFamily: "Noto Sans KR",
   },
   member:{
 	fontFamily: "Noto Sans KR",
 	fontSize: "16px"
   },
-
+  left:{
+	fontFamily: "Noto Sans KR, sans-serif",
+	color:"#FFFFFF",
+	fontSize:"36px",
+	paddingBottom:"10px",
+	fontWeight:"700"
+  }
 
 }))
 
@@ -29,19 +35,20 @@ const Header = () => {
 
 	const showMember = (e) => {
 		e.preventDefault();
-		console.log("hi")
 	} 
 
 	const memberLink = "https://www.notion.so/e42040d1792b431fafca2e5324b6e50a?v=5daa629243fd475b8ae40ddd344ad098";
 	
 	return(
 		<Grid container className = "header">
-			<Grid className="left">
+		  <Container className="headerWrapper" xs={9} style={{display:"flex"}}>
+			<Grid className={classes.left}>
 				세탁 만세 
 			</Grid>
-			<Grid className="right" >
+			<Button className="right" >
 			  <a href={memberLink}className={classes.member}>멤버 소개</a>
-			</Grid>
+			</Button>
+		  </Container>
 		</Grid>
 	)
 }
