@@ -2,8 +2,6 @@ import React from "react";
 import { Grid, Container , MuiThemeProvider , createMuiTheme , makeStyles , Button } from "@material-ui/core"
 import mail from "./img/mail.png";
 import insta from "./img/insta.png";
-
-
 import "./style/Footer.css";
 
 const useStyles = makeStyles((theme) => ({
@@ -12,7 +10,12 @@ const useStyles = makeStyles((theme) => ({
 	},
 	
 	footer:{
-        fontFamily: "Noto Sans KR",
+		fontFamily: "Noto Sans KR, sans-serif",
+		fontWeight:"400",
+		fontSize:"13px",
+		lineHeight:"1.5em",
+		letterSpacing:"0.05em",
+		paddingTop:"30px"
     },
 
     footerGround:{
@@ -52,7 +55,7 @@ const Footer = () => {
 				<Container> 
 					<Grid className={classes.footer}>
 						<p>
-						상호: WashSwat Inc. | 대표: 윤장원 | 개인정보관리책임자: 윤장원 | 전화: 010-7257-6466 | 이메일: yoonjangwon94@gmail.com
+						상호: HONGIK Inc. | 대표: 윤장원 | 개인정보관리책임자: 윤장원 | 전화: 010-7257-6466 | 이메일: yoonjangwon94@gmail.com
 							<img className={classes.mailImg} src={mail}/>
 							<a href = {instaAddress} >
 							  <img className={classes.instaImg} src={insta} />
@@ -73,7 +76,7 @@ const Footer = () => {
 						</Button>
 						</p>
 						<p>
-						ⓒ 2020 WASHSWAT
+						ⓒ 2020 D.S STUDENT, DEPARTMENT OF COMPUTER ENGINEERING, HONGIK UNIVERSITY, REPUBLIC OF KOREA
 						</p>
 					</Grid>
 				</Container>
