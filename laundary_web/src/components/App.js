@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Grid, Container , MuiThemeProvider , createMuiTheme , makeStyles } from "@material-ui/core"
 import Header from "./Header";
-import Footer from "./Footer";
-import Main from "./Main";
+import Footer from "./footer";
+import Main from "./main";
 import "./style/App.css";
 import "../index.css";
 

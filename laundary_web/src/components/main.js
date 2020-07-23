@@ -32,15 +32,8 @@ const Main = () => {
 			  <Grid>
 			    <img class = "mainImg" src={img1} style={{width:"100%"}}/>
 				</Grid>
-
-				<Grid>
-					
-				</Grid>
 			</Grid>
 		)
-
-
-		
 	}
 	
 export default Main;
