@@ -1,4 +1,76 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap');
+
 .mainImg{
     width: 100%;
-    margin-top: 20px;
+    /* margin-top: 20px; */
+}
+
+.mainContent{
+    text-align: center;
+    font-weight: 700;
+    font-size: 30px;
+    margin-block-start: 1em;
+    margin-block-end: 1em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    color: #000000;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    line-height: 1.5em;
+}
+
+.laudaryContent{
+    color: #000000;
+    font-family: Noto Sans KR, sans-serif;
+    font-weight: 300;
+    letter-spacing: 0.05em;
+    line-height: 1.8em;
+    text-align: center;
+}
+
+.wrapper{
+
+}
+
+.leftImgWrapper{
+    margin-left: 10px;
+}
+
+.img7{
+    margin-top: 2px;
+}
+
+.img6{
+    margin-top: 42px;
+}
+
+.bottomContent{
+    display: block;
+    margin-block-start: 1em;
+    margin-block-end: 1em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    text-align: center;
+}
+
+.bottomHeader{
+    color: #000000;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    line-height: 1.5em;
+    font-size: 30px;
+}
+
+.bottomMain{
+    text-align: left;
+    color: #000000;
+    font-family: Noto Sans KR, sans-serif;
+    font-weight: 300;
+    letter-spacing: 0.05em;
+    line-height: 1.8em;
+    text-align: center;
+}
+
+.bottomImg{
+    display: flex;
 }

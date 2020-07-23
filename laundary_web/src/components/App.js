@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { Grid, Container , MuiThemeProvider , createMuiTheme , makeStyles } from "@material-ui/core"
+import { Grid, Container , MuiThemeProvider , createMuiTheme , makeStyles , Typography} from "@material-ui/core"
 import Header from "./Header";
 import Footer from "./footer";
 import Main from "./main";
 import "./style/App.css";
-import "../index.css";
-
 
 const useStyles = makeStyles((theme) => ({
 	root:{
@@ -18,7 +16,10 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 const theme = createMuiTheme({
-  
+  typography:{
+		fontFamily: "Noto Sans KR",
+  },
+
   // 반응형 브레이크 포인트 
 	breakpoints: {
 	  // Define custom breakpoint values.
@@ -44,10 +45,7 @@ const App = () => {
   return (
     <MuiThemeProvider theme={theme} >
       <Grid className={classes.root}>
-        <Container xs={9}>
           <Header/>
-        </Container>
-
         <Grid className={classes.main} xs={12} >
           <Main/>
           <Footer/>
