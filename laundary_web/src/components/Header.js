@@ -16,8 +16,9 @@ const useStyles = makeStyles((theme) => ({
 	fontFamily: "Noto Sans KR",
   },
   member:{
-	fontFamily: "Noto Sans KR",
-	fontSize: "16px"
+	fontFamily: "Noto Sans KR, sans-serif",
+	fontSize: "16px",
+	color:"#FFFFFF"
   },
   left:{
 	fontFamily: "Noto Sans KR, sans-serif",
@@ -46,7 +47,7 @@ const Header = () => {
 				세탁 만세 
 			</Grid>
 			<Button className="right" >
-			  <a href={memberLink}className={classes.member}>멤버 소개</a>
+			  <a href={memberLink} className={classes.member}>멤버 소개</a>
 			</Button>
 		  </Container>
 		</Grid>
