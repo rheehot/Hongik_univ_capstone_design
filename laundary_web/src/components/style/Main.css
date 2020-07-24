@@ -74,3 +74,10 @@
 .bottomImg{
     display: flex;
 }
+
+#img{
+    transition-property: opacity;
+    transition-duration: 2s;
+    transition-delay: 1s;
+    transition-timing-function: ease;
+}
