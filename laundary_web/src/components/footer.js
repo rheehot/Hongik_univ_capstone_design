@@ -80,7 +80,9 @@ const Footer = () => {
 					<Grid className={classes.footer}>
 						<p>
 						상호: HONGIK Inc. | 대표: 윤장원 | 개인정보관리책임자: 윤장원 | 전화: 010-7257-6466 | 이메일: yoonjangwon94@gmail.com
-							<img className={classes.mailImg} src={mail}/>
+							<a href="mailto:yoonjangwon94@gmail.com" target="_blank">
+							  <img className={classes.mailImg} src={mail} />
+							</a>
 							<a href = {instaAddress} >
 							  <img className={classes.instaImg} src={insta} />
 							</a>
@@ -90,13 +92,13 @@ const Footer = () => {
 						</p>
 						<p>
 						<Button>
-							<a href={useTerm} className={classes.useTerm}>이용약관</a>
+							<a href={useTerm} className={classes.useTerm} target="_blank">이용약관</a>
 						</Button>
 						<Button >
-							<a href={userInfoDiscipline} className={classes.userInfoDiscipline} >개인정보처리방침</a>
+							<a href={userInfoDiscipline} className={classes.userInfoDiscipline} target="_blank" >개인정보처리방침</a>
 						</Button>
 						<Button>
-							<a href={managerInfo} className={classes.managerInfo} >사업자정보확인</a>
+							<a href={managerInfo} className={classes.managerInfo} target="_blank">사업자정보확인</a>
 						</Button>
 						</p>
 						<p>
