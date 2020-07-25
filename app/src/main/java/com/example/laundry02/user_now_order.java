@@ -3,22 +3,41 @@ package com.example.laundry02;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.method.ScrollingMovementMethod;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Response;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 
 public class user_now_order extends AppCompatActivity{
@@ -35,6 +54,17 @@ public class user_now_order extends AppCompatActivity{
 
     String user_name1, user_address1, user_id1, user_address_detail1;
     Double user_lat1, user_long1;
+
+    private static String TAG = "phptest";
+
+    private EditText mEditTextName;
+    private EditText mEditTextCountry;
+    private TextView mTextViewResult;
+    private ArrayList<user_now_order_list> mArrayList;
+    private user_now_order_Adpter mAdapter;
+    private RecyclerView mRecyclerView;
+    private EditText mEditTextSearchKeyword;
+    private String mJsonString;
 
     @Override
     public void onBackPressed() {
@@ -89,40 +119,176 @@ public class user_now_order extends AppCompatActivity{
 
         //=======================================리스트시작===========================================
 
-        listView = (ListView)findViewById(R.id.listview);
-        list1 = new user_now_order_list("하나세탁소","20200714");
-        list2 = new user_now_order_list("둘세탁소","20200510");
-        list3 = new user_now_order_list("셋세탁소", "20190101");
-        user_now_order_list = new ArrayList<user_now_order_list>();
-        user_now_order_list.add(list1);
-        user_now_order_list.add(list2);
-        user_now_order_list.add(list3);
-        user_now_order_list.add(list1);
-        user_now_order_list.add(list2);
-        user_now_order_list.add(list3);
-        user_now_order_list.add(list1);
-        user_now_order_list.add(list2);
-        user_now_order_list.add(list3);
+        mTextViewResult = (TextView)findViewById(R.id.textView_main_result);
+        mRecyclerView = (RecyclerView) findViewById(R.id.listView_main_list);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        myadapter = new user_now_order_Adpter(getApplicationContext(),R.layout.user_now_order_info, user_now_order_list);
-        listView.setAdapter(myadapter);
+        mTextViewResult.setMovementMethod(new ScrollingMovementMethod());
 
+        mArrayList = new ArrayList<>();
 
+        mAdapter = new user_now_order_Adpter(this, mArrayList, user_name1,user_address1,user_lat1,user_long1,user_id1,user_address_detail1);
+        mRecyclerView.setAdapter(mAdapter);
 
+        mArrayList.clear();
+        mAdapter.notifyDataSetChanged();
 
-        /*b1 = (Button) findViewById(R.id.intomyorder);
-        b1.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                Intent intent = new Intent(user_now_order.this, user_now_order.class);
-                intent.putExtra("user_name",user_name1);
-                intent.putExtra("user_address",user_address1);
-                intent.putExtra("user_lat",user_lat1);
-                intent.putExtra("user_long",user_long1);
-                startActivity(intent);
+        Response.Listener<String> responseListener = new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+
             }
-        });*/
+        };
+
+        user_now_order.GetData task = new user_now_order.GetData();
+        task.execute("http://edit0.dothome.co.kr/user_now_order_db.php",user_id1);
+
+
 
     }
+
+    private class GetData extends AsyncTask<String, Void, String> {
+
+        ProgressDialog progressDialog;
+        String errorString = null;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+            progressDialog = ProgressDialog.show(user_now_order.this,
+                    "Please Wait", null, true, true);
+        }
+
+
+        @Override
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+
+            progressDialog.dismiss();
+            /*mTextViewResult.setText(result);*/
+            Log.d(TAG, "response - " + result);
+
+            if (result == null){
+
+                mTextViewResult.setText(errorString);
+            }
+            else {
+
+                mJsonString = result;
+                showResult();
+            }
+        }
+
+
+        @Override
+        protected String doInBackground(String... params) {
+
+            /*String serverURL = params[0];
+            String postParameters = params[1];*/
+            /*String user_lat = (String)params[1];
+            String user_long = (String)params[2];*/
+
+            String serverURL = params[0];
+            String postParameters = "user_id=" + params[1];
+
+            try {
+
+                URL url = new URL(serverURL);
+                HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+
+
+                httpURLConnection.setReadTimeout(5000);
+                httpURLConnection.setConnectTimeout(5000);
+                httpURLConnection.setRequestMethod("POST");
+                httpURLConnection.setDoInput(true);
+                httpURLConnection.connect();
+
+
+                OutputStream outputStream = httpURLConnection.getOutputStream();
+                outputStream.write(postParameters.getBytes("UTF-8"));
+                outputStream.flush();
+                outputStream.close();
+
+
+                int responseStatusCode = httpURLConnection.getResponseCode();
+                Log.d(TAG, "response code - " + responseStatusCode);
+
+                InputStream inputStream;
+                if(responseStatusCode == HttpURLConnection.HTTP_OK) {
+                    inputStream = httpURLConnection.getInputStream();
+                }
+                else{
+                    inputStream = httpURLConnection.getErrorStream();
+                }
+
+
+                InputStreamReader inputStreamReader = new InputStreamReader(inputStream, "UTF-8");
+                BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+
+                StringBuilder sb = new StringBuilder();
+                String line;
+
+                while((line = bufferedReader.readLine()) != null){
+                    sb.append(line);
+                }
+
+                bufferedReader.close();
+
+                return sb.toString().trim();
+
+
+            } catch (Exception e) {
+
+                Log.d(TAG, "GetData : Error ", e);
+                errorString = e.toString();
+
+                return null;
+            }
+
+        }
+    }
+
+
+    private void showResult(){
+
+        String TAG_JSON="result";
+        String TAG_s_name = "s_name";
+        String TAG_date = "date";
+
+
+        try {
+            JSONObject jsonObject = new JSONObject(mJsonString);
+            JSONArray jsonArray = jsonObject.getJSONArray(TAG_JSON);
+
+            for(int i=0;i<jsonArray.length();i++){
+
+                JSONObject item = jsonArray.getJSONObject(i);
+
+                String s_name1 = item.getString(TAG_s_name);
+                String date1 = item.getString(TAG_date);
+
+                user_now_order_list personalData = new user_now_order_list();
+
+                personalData.setMember_s_name(s_name1);
+                personalData.setMember_date(date1);
+
+                mArrayList.add(personalData);
+                mAdapter.notifyDataSetChanged();
+            }
+
+
+
+        } catch (JSONException e) {
+
+            Log.d(TAG, "showResult : ", e);
+        }
+
+    }
+
+
+
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.

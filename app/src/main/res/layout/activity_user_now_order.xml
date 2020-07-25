@@ -13,31 +13,29 @@
         android:layout_marginTop="15dp">
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="30dp"
-            android:layout_marginLeft="40dp"
-            android:text="가게이름"
+            android:layout_height="20dp"
+            android:layout_marginLeft="10dp"
+            android:text="*현재 주문목록들을 볼 수 있습니다.*"
             android:textStyle="bold"
-            android:textSize="20dp">
-
-        </TextView>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="30dp"
-            android:layout_marginLeft="55dp"
-            android:text="주문날짜"
-            android:textStyle="bold"
-            android:textSize="20dp">
+            android:textSize="15dp">
 
         </TextView>
 
     </LinearLayout>
 
-    <ListView
-        android:id="@+id/listview"
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/textView_main_result"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="1sp"
+        android:text=""></TextView>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:layout_margin="10dp"
+        android:layout_margin="5dp"
+        android:padding="5dp"
+        android:id="@+id/listView_main_list"
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"/>

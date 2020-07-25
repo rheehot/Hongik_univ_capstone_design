@@ -17,21 +17,30 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 
 public class owner_gongji_management extends AppCompatActivity{
-    String owner_name1, owner_address1,store_name1;
+    String owner_name1, owner_address1,store_name1,gongji1;
     Double owner_lat1, owner_long1;
 
     private long backBtnTime = 0;
     Button b1,b2,b3,b4,b5,b6,b7,b8;
-    TextView get_text;
+    EditText et1;
+    String a;
 
     private ListView listView;
 
@@ -56,6 +65,9 @@ public class owner_gongji_management extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_owner_gongji_management);
+        et1 = (EditText) findViewById(R.id.contentgongji);
+
+
 
 
         Intent intent = getIntent();
@@ -64,6 +76,7 @@ public class owner_gongji_management extends AppCompatActivity{
         owner_lat1 = intent.getDoubleExtra("owner_lat",0.0);
         owner_long1 = intent.getDoubleExtra("owner_long",0.0);
         store_name1 = intent.getStringExtra("store_name");
+        gongji1 = intent.getStringExtra("gongji");
 
         //액션바 설정하기//
         //액션바 타이틀 변경하기
@@ -73,7 +86,83 @@ public class owner_gongji_management extends AppCompatActivity{
         //홈버튼 표시
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        et1.setText(gongji1);
 
+        Response.Listener<String> responseListener = new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    JSONObject jsonObject = new JSONObject(response);
+                    boolean success = jsonObject.getBoolean("success"); //php보면 response가 success면 ㄱㄱ
+                    if(success){ //회원등록에 성공한 경우
+                        String gongji1 = jsonObject.getString("content");
+                        if (gongji1.length()==0){
+                            et1.setText("공지사항을 적어주세요!");
+                        }
+                        else {
+                            et1.setText(gongji1);
+                        }
+                    }
+                    //실패한 경우
+                    else{
+                        Toast.makeText(getApplicationContext(),"중복된 아이디입니다.",Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        };
+
+        //서버로 Volley를 이용해서 요청을 함
+        owner_gongji_management_re_db registerRequest = new owner_gongji_management_re_db(store_name1, responseListener);
+        RequestQueue queue = Volley.newRequestQueue(owner_gongji_management.this);
+        queue.add(registerRequest);
+
+        b1 = (Button) findViewById(R.id.savebutton);
+        b1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String content = et1.getText().toString();
+                Response.Listener<String> responseListener = new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            JSONObject jsonObject = new JSONObject(response);
+                            boolean success = jsonObject.getBoolean("success"); //php보면 response가 success면 ㄱㄱ
+                            if(success){ //회원등록에 성공한 경우
+                                String gongji = jsonObject.getString("content");
+                                Toast.makeText(getApplicationContext(),"저장되었습니다.",Toast.LENGTH_SHORT).show();
+
+                                Intent intent = new Intent(owner_gongji_management.this, owner_gongji_management.class);
+                                intent.putExtra("owner_name",owner_name1);
+                                intent.putExtra("owner_address",owner_address1);
+                                intent.putExtra("owner_lat",owner_lat1);
+                                intent.putExtra("owner_long",owner_long1);
+                                intent.putExtra("store_name",store_name1);
+                                intent.putExtra("gongji",gongji);
+
+                                startActivity(intent);
+                            }
+                            //실패한 경우
+                            else{
+                                Toast.makeText(getApplicationContext(),"중복된 아이디입니다.",Toast.LENGTH_SHORT).show();
+                                return;
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                };
+
+                //서버로 Volley를 이용해서 요청을 함
+                owner_gongji_management_db registerRequest = new owner_gongji_management_db(content, store_name1, responseListener);
+                RequestQueue queue = Volley.newRequestQueue(owner_gongji_management.this);
+                queue.add(registerRequest);
+            }
+        });
 
 
 
@@ -102,6 +191,7 @@ public class owner_gongji_management extends AppCompatActivity{
                 intent.putExtra("owner_lat",owner_lat1);
                 intent.putExtra("owner_long",owner_long1);
                 intent.putExtra("store_name",store_name1);
+                intent.putExtra("gongji",gongji1);
                 startActivity(intent);
                 break;
             case R.id.b2:
@@ -111,6 +201,7 @@ public class owner_gongji_management extends AppCompatActivity{
                 intent1.putExtra("owner_lat",owner_lat1);
                 intent1.putExtra("owner_long",owner_long1);
                 intent1.putExtra("store_name",store_name1);
+                intent1.putExtra("gongji",gongji1);
                 startActivity(intent1);
                 break;
             case R.id.b3:
@@ -120,6 +211,7 @@ public class owner_gongji_management extends AppCompatActivity{
                 intent2.putExtra("owner_lat",owner_lat1);
                 intent2.putExtra("owner_long",owner_long1);
                 intent2.putExtra("store_name",store_name1);
+                intent2.putExtra("gongji",gongji1);
                 startActivity(intent2);
                 break;
             case R.id.b4:
@@ -129,6 +221,7 @@ public class owner_gongji_management extends AppCompatActivity{
                 intent3.putExtra("owner_lat",owner_lat1);
                 intent3.putExtra("owner_long",owner_long1);
                 intent3.putExtra("store_name",store_name1);
+                intent3.putExtra("gongji",gongji1);
                 startActivity(intent3);
                 break;
             case R.id.b5:
@@ -138,6 +231,7 @@ public class owner_gongji_management extends AppCompatActivity{
                 intent4.putExtra("owner_lat",owner_lat1);
                 intent4.putExtra("owner_long",owner_long1);
                 intent4.putExtra("store_name",store_name1);
+                intent4.putExtra("gongji",gongji1);
                 startActivity(intent4);
                 break;
             case R.id.b6:
@@ -147,6 +241,7 @@ public class owner_gongji_management extends AppCompatActivity{
                 intent5.putExtra("owner_lat",owner_lat1);
                 intent5.putExtra("owner_long",owner_long1);
                 intent5.putExtra("store_name",store_name1);
+                intent5.putExtra("gongji",gongji1);
                 startActivity(intent5);
                 break;
             case R.id.b7:

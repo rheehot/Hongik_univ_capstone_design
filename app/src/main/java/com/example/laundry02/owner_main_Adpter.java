@@ -25,17 +25,18 @@ public class owner_main_Adpter extends RecyclerView.Adapter<owner_main_Adpter.Cu
     String owner_address;
     Double owner_lat;
     Double owner_long;
-
+    String store_name;
 
 
     public owner_main_Adpter(Activity context, ArrayList<owner_main1_list> list, String owner_name, String owner_address,
-                             Double owner_lat, Double owner_long) {
+                             Double owner_lat, Double owner_long, String store_name) {
         this.context = context;
         this.mList = list;
         this.owner_name = owner_name;
         this.owner_address = owner_address;
         this.owner_lat = owner_lat;
         this.owner_long = owner_long;
+        this.store_name = store_name;
     }
 
 
@@ -78,14 +79,15 @@ public class owner_main_Adpter extends RecyclerView.Adapter<owner_main_Adpter.Cu
                 Intent intent = new Intent(context.getApplicationContext(),ImageActivity_owner.class);
 
                 /*intent.putExtra("image",Integer.toString(mList.get(position).getImage()));*/
-                intent.putExtra("name",mList.get(position).getMember_u_address());
-                intent.putExtra("gender",mList.get(position).getMember_u_id());
-                intent.putExtra("age",mList.get(position).getMember_u_pw());
+                intent.putExtra("u_address",mList.get(position).getMember_u_address());
+                intent.putExtra("u_id",mList.get(position).getMember_u_id());
+                intent.putExtra("u_pw",mList.get(position).getMember_u_pw());
 
                 intent.putExtra("owner_name",owner_name);
                 intent.putExtra("owner_address",owner_address);
                 intent.putExtra("owner_lat",owner_lat);
                 intent.putExtra("owner_long",owner_long);
+                intent.putExtra("store_name",store_name);
                 context.startActivity(intent);
             }
         });

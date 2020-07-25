@@ -45,7 +45,7 @@ public class user_forpay extends Activity {
         user_long1 = intent.getDoubleExtra("user_long",0.0);
         title1 = intent.getStringExtra("title");
         user_id1 = intent.getStringExtra("user_id");
-        user_address_detail1 = intent.getStringExtra("user_address_detail1");
+        user_address_detail1 = intent.getStringExtra("user_address_detail");
 
         tv1 = (TextView) findViewById(R.id.title1);
         tv1.setText(title1+" [결제하기]");
@@ -85,7 +85,6 @@ public class user_forpay extends Activity {
         et1 = (EditText) findViewById(R.id.et1);
 
         b2.setOnClickListener(new View.OnClickListener() {
-            String memo1 = "메모장 안들어감.. 하..."/*et1.getText().toString()*/;
 
             int n_o_count = 0;
             String u_address = user_address1;
@@ -94,14 +93,9 @@ public class user_forpay extends Activity {
             String item_list_laundry_list_s_name = title1;
             String user_u_id = user_id1;
             int yes_no = 0;
-            String memo = memo1;
             @Override
             public void onClick(View v) {
-                try {
-                    Toast.makeText(getApplicationContext(),memo,Toast.LENGTH_SHORT).show();
-                }catch (Exception e){
-                    Toast.makeText(getApplicationContext(),"빈칸을 채워주세요.",Toast.LENGTH_SHORT).show();
-                }
+                String memo1 = et1.getText().toString();
                 Response.Listener<String> responseListener = new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -124,7 +118,7 @@ public class user_forpay extends Activity {
                             }
                             //실패한 경우
                             else{
-                                Toast.makeText(getApplicationContext(),"중복된 아이디입니다.",Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getApplicationContext(),"이미 주문 중 입니다.:).",Toast.LENGTH_SHORT).show();
                                 return;
                             }
                         } catch (JSONException e) {
@@ -135,7 +129,7 @@ public class user_forpay extends Activity {
                 };
 
                 //서버로 Volley를 이용해서 요청을 함
-                user_forpay_db registerRequest = new user_forpay_db(n_o_count, u_address,date,memo, delivery_check,
+                user_forpay_db registerRequest = new user_forpay_db(n_o_count, u_address,date,memo1, delivery_check,
                         item_list_laundry_list_s_name, user_u_id, yes_no, responseListener);
                 RequestQueue queue = Volley.newRequestQueue(user_forpay.this);
                 queue.add(registerRequest);

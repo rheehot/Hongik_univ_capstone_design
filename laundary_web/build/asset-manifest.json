@@ -1,0 +1,32 @@
+{
+  "files": {
+    "main.css": "/static/css/main.dac929a6.chunk.css",
+    "main.js": "/static/js/main.b075361c.chunk.js",
+    "main.js.map": "/static/js/main.b075361c.chunk.js.map",
+    "runtime-main.js": "/static/js/runtime-main.5cb39021.js",
+    "runtime-main.js.map": "/static/js/runtime-main.5cb39021.js.map",
+    "static/js/2.f331bb41.chunk.js": "/static/js/2.f331bb41.chunk.js",
+    "static/js/2.f331bb41.chunk.js.map": "/static/js/2.f331bb41.chunk.js.map",
+    "index.html": "/index.html",
+    "precache-manifest.7991cb7fc24d17868cbfeb8f1f176173.js": "/precache-manifest.7991cb7fc24d17868cbfeb8f1f176173.js",
+    "service-worker.js": "/service-worker.js",
+    "static/css/main.dac929a6.chunk.css.map": "/static/css/main.dac929a6.chunk.css.map",
+    "static/js/2.f331bb41.chunk.js.LICENSE.txt": "/static/js/2.f331bb41.chunk.js.LICENSE.txt",
+    "static/media/bag.png": "/static/media/bag.9d337c1c.png",
+    "static/media/img4.png": "/static/media/img4.fd981047.png",
+    "static/media/img5.png": "/static/media/img5.442e4481.png",
+    "static/media/img6.png": "/static/media/img6.be46c913.png",
+    "static/media/img7.png": "/static/media/img7.f2c00bb8.png",
+    "static/media/img8.png": "/static/media/img8.494ea043.png",
+    "static/media/insta.png": "/static/media/insta.8ce47fd8.png",
+    "static/media/mail.png": "/static/media/mail.b9ac0f52.png",
+    "static/media/phone.png": "/static/media/phone.48fdd9c1.png",
+    "static/media/truck.png": "/static/media/truck.5d3fd272.png"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.5cb39021.js",
+    "static/js/2.f331bb41.chunk.js",
+    "static/css/main.dac929a6.chunk.css",
+    "static/js/main.b075361c.chunk.js"
+  ]
+}

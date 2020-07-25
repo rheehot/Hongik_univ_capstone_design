@@ -1,20 +1,26 @@
 package com.example.laundry02;
 
 public class user_now_order_list {
-    public String s_name;
-    public String date;
+    private String member_s_name;
+    private String member_date;
 
-    user_now_order_list(String s_name, String date){
-        this.s_name =s_name;
-        this.date = date;
+    public String getMember_s_name() {
+        return member_s_name;
     }
 
-    public String getS_name() {
-        return s_name;
+    public String getMember_date() {
+        return member_date;
     }
-    public String getDate(){
-        return date;
+
+
+    public void setMember_s_name(String member_s_name) {
+        this.member_s_name = member_s_name;
     }
+
+    public void setMember_date(String member_date) {
+        this.member_date = member_date;
+    }
+
 
 }
 

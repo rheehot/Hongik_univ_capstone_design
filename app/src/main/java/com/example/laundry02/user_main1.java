@@ -142,7 +142,7 @@ public class user_main1 extends AppCompatActivity{
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         user_address = findViewById(R.id.tv1);
-        user_address.setText(user_address1+" "+user_address_detail1);
+        user_address.setText(user_address1);
 
 
         /*listView = (ListView)findViewById(R.id.listView);

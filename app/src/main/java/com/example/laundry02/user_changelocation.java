@@ -140,7 +140,7 @@ public class user_changelocation extends AppCompatActivity implements OnMapReady
                                 Toast.makeText(getApplicationContext(),"주소가 변경되었습니다. 다시 로그인 해주세요.",Toast.LENGTH_SHORT).show();
                                 Intent intent = new Intent(user_changelocation.this, user_changelocation.class);
                                 intent.putExtra("user_name",user_name1);
-                                intent.putExtra("user_address",user_address);
+                                intent.putExtra("user_address",user_address+" "+user_address_detail);
                                 intent.putExtra("user_lat",user_lat);
                                 intent.putExtra("user_long",user_long);
                                 intent.putExtra("user_id",user_id1);
@@ -149,7 +149,7 @@ public class user_changelocation extends AppCompatActivity implements OnMapReady
                             }
                             //실패한 경우
                             else{
-                                Toast.makeText(getApplicationContext(),"주소 변경 실패",Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getApplicationContext(),"주소 변경 실패\n상품을 주문 중이라면, 모든 주문이 끝난 후 변경할 수 있습니다.",Toast.LENGTH_SHORT).show();
                                 return;
                             }
                         } catch (JSONException e) {

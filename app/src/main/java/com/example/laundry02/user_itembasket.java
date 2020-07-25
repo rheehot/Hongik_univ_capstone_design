@@ -71,7 +71,7 @@ public class user_itembasket extends Activity {
         user_long1 = intent.getDoubleExtra("user_long",0.0);
         title1 = intent.getStringExtra("title");
         user_id1 = intent.getStringExtra("user_id");
-        user_address_detail1 = intent.getStringExtra("user_address_detail1");
+        user_address_detail1 = intent.getStringExtra("user_address_detail");
 
         tv1 = findViewById(R.id.title1);
         tv1.setText(title1+"-장바구니");

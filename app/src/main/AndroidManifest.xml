@@ -11,7 +11,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".user_forpay"></activity>
+        <activity android:name=".user_now_order2"></activity>
+        <activity android:name=".user_forpay" />
         <activity android:name=".owner_info1" />
         <activity android:name=".owner_item_add_del_up_del" />
         <activity android:name=".owner_item_add_del_add" />
@@ -53,11 +54,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Human" />
-        <activity android:name=".HumanAdpter" />
         <activity android:name=".ImageActivity" />
-        <activity android:name=".Human_owner" />
-        <activity android:name=".HumanAdpter_owner" />
         <activity android:name=".ImageActivity_owner" />
         <activity android:name=".user_itempage_list" />
         <activity android:name=".user_itempage_Adpter" />

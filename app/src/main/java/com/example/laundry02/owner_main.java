@@ -110,7 +110,7 @@ public class owner_main extends AppCompatActivity{
 
         mArrayList = new ArrayList<>();
 
-        mAdapter = new owner_main_Adpter(this, mArrayList, var_name, var_address, var_lat, var_long);
+        mAdapter = new owner_main_Adpter(this, mArrayList, var_name, var_address, var_lat, var_long,var_store_name);
         mRecyclerView.setAdapter(mAdapter);
 
         mArrayList.clear();

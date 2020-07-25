@@ -6,6 +6,9 @@ import android.app.Activity;
 import android.os.Bundle;
 
 import android.view.View;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -15,6 +18,7 @@ import android.net.Uri;
 public class MainActivity extends Activity {
 
     private long backBtnTime = 0;
+    Button b1;
 
     @Override
     public void onBackPressed() {
@@ -82,5 +86,13 @@ public class MainActivity extends Activity {
         Intent myIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://m.naver.com"));
         startActivity(myIntent);
     }*/
+        b1 = (Button) findViewById(R.id.web);
+        b1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_VIEW,Uri.parse("http://laudaryservice.s3-website.ap-northeast-2.amazonaws.com/"));
+                startActivity(intent);
+            }
+        });
     }
 }
