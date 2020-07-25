@@ -4,6 +4,7 @@ import { Grid, Container } from "@material-ui/core";
 import "./style/Main.css";
 import img1 from "./img/img4.png";
 import img2 from "./img/img5.png";
+import img3 from "./img/img3.png";
 import img6 from "./img/img6.png";
 import img7 from "./img/img7.png";
 import img8 from "./img/img8.png";
@@ -13,29 +14,32 @@ import truck from "./img/truck.png"
 
 
 const Main = () => { 
+	
 
-	let imgArr = new Array();
+	// 이미지 변환 함수
+	function displayNextImage() {
+		x = (x === images.length - 1) ? 0 : x + 1;
+		document.getElementById("img").src = images[x];
+		}
 
-	imgArr[0] = img1
-	imgArr[1] = img2
+		function displayPreviousImage() {
+				x = (x <= 0) ? images.length - 1 : x - 1;
+				document.getElementById("img").src = images[x];
+		}
 
+		function startTimer() {
+				setTimeout(displayNextImage, 4000);
+		}
 
-	function showImage() { 
-
-		var imgNum = Math.round(Math.random()*3); 
-		
-		var objImg = document.getElementById("introimg"); 
-		
-		objImg.src = imgArr[imgNum]; 
-		
-		setTimeout(showImage, 1000);
-		
-	}
+		var images = [], x = -1;
+		images[0] = img1;
+		images[1] = img2;
+		images[2] = img3;
 
 		return (
 			<Grid xs={12} className="main">
-			  <Grid>
-			    <img class = "mainImg" src={img1} style={{width:"100%"}}/>
+			  <Grid onLoad={startTimer}>
+					<img id = "img" src={img1} style={{width:"100%"}}/>
 			  </Grid>
 
 			  <Container>
