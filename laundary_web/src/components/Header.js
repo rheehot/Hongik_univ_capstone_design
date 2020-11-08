@@ -35,11 +35,11 @@ const Header = () => {
 		<Grid container className = "header">
 			<Grid className="header__content">
 				<a href="#">
-					<img src={name__main} style={{width:"25%" , height:""}}/>
+					<img src={name__main} style={{width:"25%"}}/>
 				</a>
-				<Button className="right" >
-					<a href={memberLink} className={classes.member}>멤버 소개</a>
-				</Button>
+					<Button className="right" >
+						<a href={memberLink} >멤버 소개</a>
+					</Button>
 			</Grid>
 		</Grid>
 	)
