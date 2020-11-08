@@ -10,37 +10,36 @@ import {
 	 makeStyles
 		} from "@material-ui/core";
 import "./style/Header.css";
+import name__main from "./img/name__main.png";
 
 const useStyles = makeStyles((theme) => ({
   root:{
-		fontFamily: "Noto Sans KR",
-  },
-  member:{
 	fontFamily: "Noto Sans KR",
-	fontSize: "16px"
   },
-
-
+  left:{
+	fontFamily: "Noto Sans KR, sans-serif",
+	color:"#FFFFFF",
+	fontSize:"36px",
+	fontWeight:"700",
+	textDecoration:"none",
+  }
 }))
 
 const Header = () => {
 
 	const classes  = useStyles();
 
-	const showMember = (e) => {
-		e.preventDefault();
-		console.log("hi")
-	} 
-
-	const memberLink = "https://www.notion.so/e42040d1792b431fafca2e5324b6e50a?v=5daa629243fd475b8ae40ddd344ad098";
+	const memberLink = "https://www.notion.so/Framework-a0b51c5f08694cde8de57660e53be9f7";
 	
 	return(
 		<Grid container className = "header">
-			<Grid className="left">
-				세탁 만세 
-			</Grid>
-			<Grid className="right" >
-			  <a href={memberLink}className={classes.member}>멤버 소개</a>
+			<Grid className="header__content">
+				<a href="#">
+					<img src={name__main} style={{width:"25%" , height:""}}/>
+				</a>
+				<Button className="right" >
+					<a href={memberLink} className={classes.member}>멤버 소개</a>
+				</Button>
 			</Grid>
 		</Grid>
 	)
