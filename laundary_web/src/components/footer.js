@@ -19,7 +19,9 @@ const useStyles = makeStyles((theme) => ({
     },
 
     footerGround:{
-        backgroundColor:"#F9F9F9"
+		backgroundColor:"#F9F9F9",
+		width:"100%",
+		height:"20vh"
 		},
 		mailImg:{
 			width:"24px",

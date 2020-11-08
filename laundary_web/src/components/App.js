@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Grid, Container , MuiThemeProvider , createMuiTheme , makeStyles , Typography} from "@material-ui/core"
 import Header from "./Header";
-import Footer from "./footer";
-import Main from "./main";
+import Footer from "./Footer.js";
+import Main from "./Main";
 import "./style/App.css";
+import "./style/reset.css";
 
 const useStyles = makeStyles((theme) => ({
 	root:{
